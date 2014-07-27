@@ -8,6 +8,7 @@ package websocket;
 
 import config.DBManager;
 import entity.Car;
+import entity.Obd2odczyt;
 import entity.Pozycja;
 import java.io.IOException;
 import java.text.Format;
@@ -38,8 +39,19 @@ public class Update {
     if (part[0].equals("MAXDATE")){
         EntityManager em = DBManager.getManager().createEntityManager();
         em.getTransaction().begin();
-        int id = (Integer)em.createQuery("select max(c.id) from Car c").getSingleResult();
+        //int id = (Integer)em.createQuery("select max(c.id) from Car c").getSingleResult();
         Date date = (Date)em.createQuery("Select max(pozycja.data) from Pozycja pozycja JOIN pozycja.car car where car.vin=:vin ").setParameter("vin", part[1]).getSingleResult();
+        if (date == null){
+            Car car = new Car();
+            car.setId(null);
+            System.out.println(part[1]);
+            car.setVin(part[1]);
+            em.persist(car);
+            em.getTransaction().commit();
+            em.close();
+            session.getBasicRemote().sendText("0000-00-00 00:00:00");
+            return;
+        }
         Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String string_date = format.format(date);
         //System.out.println("Data"+string_date);
@@ -60,12 +72,31 @@ public class Update {
             pozycja.setData(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(part[8]));
             EntityManager em = DBManager.getManager().createEntityManager();
             em.getTransaction().begin();
-            System.out.println(part[2]);
+            //System.out.println(part[2]);
             Car car = (Car)em.createNamedQuery("Car.findByVin").setParameter("vin", part[2]).getSingleResult();
-            System.out.println(car);
+            //System.out.println(car);
             pozycja.setCar(car);
            // pozycja.setCar(car);
             em.persist(pozycja);
+            em.getTransaction().commit();
+            em.close();
+        }
+        if (part[1].equals("Obd2odczyt")){
+            Obd2odczyt obd2 = new Obd2odczyt();
+            obd2.setId(null);
+            obd2.setObciazenieSilnika(Integer.parseInt(part[3]));
+            obd2.setTempChlodzacego(Integer.parseInt(part[4]));
+            obd2.setCisnienieKolektora(Integer.parseInt(part[5]));
+            obd2.setObroty(Double.parseDouble(part[6]));
+            obd2.setPredkosc(Integer.parseInt(part[7]));
+            obd2.setTempDolotu(Integer.parseInt(part[8]));
+            obd2.setPolozeniePrzepustnicy(Integer.parseInt(part[9]));
+            obd2.setData(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(part[10]));
+            EntityManager em = DBManager.getManager().createEntityManager();
+            em.getTransaction().begin();
+            Car car = (Car)em.createNamedQuery("Car.findByVin").setParameter("vin", part[2]).getSingleResult();
+            obd2.setCar(car);
+            em.persist(obd2);
             em.getTransaction().commit();
             em.close();
         }
