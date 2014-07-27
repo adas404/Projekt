@@ -45,6 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Uzytkownik.findByNazwisko", query = "SELECT u FROM Uzytkownik u WHERE u.nazwisko = :nazwisko"),
     @NamedQuery(name = "Uzytkownik.findByDataUrodzenia", query = "SELECT u FROM Uzytkownik u WHERE u.dataUrodzenia = :dataUrodzenia")})
 public class Uzytkownik implements Serializable {
+    @Lob
+    @Column(name = "zdjecie")
+    private byte[] zdjecie;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,9 +74,6 @@ public class Uzytkownik implements Serializable {
     @Size(max = 45)
     @Column(name = "nazwisko", length = 45)
     private String nazwisko;
-    @Lob
-    @Column(name = "zdjecie")
-    private byte[] zdjecie;
     @Column(name = "data_urodzenia")
     @Temporal(TemporalType.DATE)
     private Date dataUrodzenia;
@@ -146,13 +146,6 @@ public class Uzytkownik implements Serializable {
         this.nazwisko = nazwisko;
     }
 
-    public byte[] getZdjecie() {
-        return zdjecie;
-    }
-
-    public void setZdjecie(byte[] zdjecie) {
-        this.zdjecie = zdjecie;
-    }
 
     public Date getDataUrodzenia() {
         return dataUrodzenia;
@@ -212,6 +205,14 @@ public class Uzytkownik implements Serializable {
     @Override
     public String toString() {
         return "entity.Uzytkownik[ id=" + id + " ]";
+    }
+
+    public byte[] getZdjecie() {
+        return zdjecie;
+    }
+
+    public void setZdjecie(byte[] zdjecie) {
+        this.zdjecie = zdjecie;
     }
     
 }
