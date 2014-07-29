@@ -7,23 +7,27 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <ui:define name="content">
-        <h:body> 
-        <h:form id="hform">           
+    <ui:define name="content"> 
+        <h:form id="hform"> 
+            <ui:include src="menu.xhtml"/>
             <p:growl id="message" showDetail="true" life="5000" />
             <p:dialog header="Okno logowania" widgetVar="dlg" resizable="false" height="200" width="400" modal="true" draggable="false" closable="false" position="center" id="dialog" visible="#{loginBean.nieZalogowany}" >
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/process_bar.gif" />
+                </p:dialog>
                 <p:panelGrid columns="2" style="vertical-align: middle">
                     <h:outputText value="Login:" style="text-align: center"/>
                     <p:inputText value="#{loginBean.uzytkownik.login}"/>
-                    <h:outputText value="Hasło:"/>
-                    <p:password value="#{loginBean.uzytkownik.haslo}"/>
+                    <h:outputText  value="Hasło:"/>
+                    <p:password id="password" value="#{loginBean.uzytkownik.haslo}"/>
                     <p:commandButton value="Potwierdź" action="#{loginBean.sprawdz}" update="hform"/>
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
                 </p:panelGrid>
             </p:dialog>
             <p:commandButton value="Wyloguj" action="#{loginBean.wyloguj}" ajax="false"/>
-            <p:outputLabel value="#{loginBean.nieZalogowany}"/>
+            <p:outputLabel value="#{typ}"/>
         </h:form>
-        </h:body> 
          <script type="text/javascript">
             function show(){
                 PF('dlg').show();

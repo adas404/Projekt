@@ -35,8 +35,6 @@ public class LoginBean {
 
     private Uzytkownik uzytkownik = new Uzytkownik();
 
-    
-
     private boolean nieZalogowany = true;
 
     public boolean isNieZalogowany() {
@@ -64,7 +62,7 @@ public class LoginBean {
         } catch(NoResultException e){
             checkUser = null;
             this.setNieZalogowany(true);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Niepowodzenie logowania", "Błędne dane"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepowodzenie logowania", "Błędne dane"));
         }
        return null;
     }
