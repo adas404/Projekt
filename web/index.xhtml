@@ -7,12 +7,32 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
-        <h:form>
-        <p:commandButton value="asdsa" action="#{managed.wypisz}" ajax="false"/>
-        </h:form>
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+        <h:form id="datatable">
+           <p:dataTable  var="car" value="#{carBean.listaCar}" selectionMode="single" selection="#{carBean.car}" rowKey="#{car.id}">
+            <p:column headerText="ID">
+                <h:outputText value="#{car.id}"/>
+            </p:column>
+            <p:column headerText="Numer VIN">
+                <h:outputText value="#{car.vin}"/>
+            </p:column>
+            <p:column headerText="Marka">
+                <h:outputText value="#{car.marka}"/>
+            </p:column>
+            <p:column headerText="Model">
+                <h:outputText value="#{car.model}"/>
+            </p:column>
+            <p:column headerText="Pojemność silnika">
+                <h:outputText value="#{car.pojemnosc}"/>
+            </p:column>
+            <p:column headerText="Zdjęcie">
+                <h:outputText value="#{car.zdjecie}"/>
+            </p:column>
+            <p:column headerText="Użytkownik">
+                <h:outputText value="#{car.uzytkownik}"/>
+            </p:column>    
+        </p:dataTable>
+            </h:form>
+                <p:commandButton value="Usuń" action="#{carBean.usun}" update=":datatable"/>
     </h:body>
 </html>
 

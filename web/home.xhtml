@@ -5,16 +5,17 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="content"> 
+    <ui:define name="login">
         <h:form id="hform"> 
             <ui:include src="menu.xhtml"/>
             <p:growl id="message" showDetail="true" life="5000" />
-            <p:dialog header="Okno logowania" widgetVar="dlg" resizable="false" height="200" width="400" modal="true" draggable="false" closable="false" position="center" id="dialog" visible="#{loginBean.nieZalogowany}" >
+            <p:dialog header="Okno logowania" widgetVar="dlg" resizable="false" height="200" width="500" modal="true" draggable="false" closable="false" position="center" id="dialog" visible="#{loginBean.nieZalogowany}" >
                 <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-                    <p:graphicImage value="/images/process_bar.gif" />
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/progress_bar.gif" />
                 </p:dialog>
                 <p:panelGrid columns="2" style="vertical-align: middle">
                     <h:outputText value="Login:" style="text-align: center"/>
@@ -25,8 +26,6 @@
                     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
                 </p:panelGrid>
             </p:dialog>
-            <p:commandButton value="Wyloguj" action="#{loginBean.wyloguj}" ajax="false"/>
-            <p:outputLabel value="#{typ}"/>
         </h:form>
          <script type="text/javascript">
             function show(){
