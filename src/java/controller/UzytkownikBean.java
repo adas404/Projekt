@@ -59,6 +59,19 @@ public class UzytkownikBean {
         em.close();
         this.uzytkownik = new Uzytkownik();
     }
+    public void dodaj(){
+        EntityManager em = DBManager.getManager().createEntityManager();
+        em.getTransaction().begin();
+        uzytkownik.setId(null);
+        em.persist(this.uzytkownik);
+        em.getTransaction().commit();
+        em.close();
+        this.uzytkownik = new Uzytkownik();
+    }
+    public Uzytkownik przygotuj(){
+        uzytkownik = new Uzytkownik();
+        return uzytkownik;
+    }
     public UzytkownikBean() {
     }
     

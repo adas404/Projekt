@@ -11,19 +11,21 @@
     <ui:define name="login">
         <h:form id="hform"> 
             <ui:include src="menu.xhtml"/>
-            <p:growl id="message" showDetail="true" life="5000" />
+            <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
             <p:dialog header="Okno logowania" widgetVar="dlg" resizable="false" height="200" width="500" modal="true" draggable="false" closable="false" position="center" id="dialog" visible="#{loginBean.nieZalogowany}" >
                 <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
                 <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
                     <p:graphicImage value="/images/progress_bar.gif" />
                 </p:dialog>
-                <p:panelGrid columns="2" style="vertical-align: middle">
+                <p:panelGrid id="panel" columns="2" style="vertical-align: middle">
                     <h:outputText value="Login:" style="text-align: center"/>
                     <p:inputText value="#{loginBean.uzytkownik.login}"/>
                     <h:outputText  value="Hasło:"/>
-                    <p:password id="password" value="#{loginBean.uzytkownik.haslo}"/>
+                    <p:password id="password" value="#{loginBean.uzytkownik.haslo}">
+                        <f:validateBean disabled="true"/>
+                    </p:password>
                     <p:commandButton value="Potwierdź" action="#{loginBean.sprawdz}" update="hform"/>
-                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+                    <p:messages id="messages" showDetail="true" closable="true" />
                 </p:panelGrid>
             </p:dialog>
         </h:form>
