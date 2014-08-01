@@ -20,6 +20,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.ValidationException;
 
 /**
  *
@@ -80,6 +81,9 @@ public class UzytkownikFilter implements Filter {
             }
             if (problem instanceof IOException) {
                 throw (IOException) problem;
+            }
+            if (problem instanceof ValidationException){
+                
             }
             sendProcessingError(problem, response);
         }

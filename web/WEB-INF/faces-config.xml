@@ -18,4 +18,13 @@
         <managed-bean-class>controller.CarBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>uzytkownikBean</managed-bean-name>
+        <managed-bean-class>controller.UzytkownikBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <converter>
+        <converter-id>uzytkownikConverter</converter-id>
+        <converter-class>config.UzytkownikConverter</converter-class>
+    </converter>
 </faces-config>

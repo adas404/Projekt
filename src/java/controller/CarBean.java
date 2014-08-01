@@ -8,8 +8,11 @@ package controller;
 
 import config.DBManager;
 import entity.Car;
+import java.awt.event.ActionEvent;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -41,7 +44,6 @@ public class CarBean {
      * Creates a new instance of CarBean
      */
     public void usun(){
-        System.out.println(car.getVin());
         EntityManager em = DBManager.getManager().createEntityManager();
         em.getTransaction().begin();
         this.car = em.find(Car.class, car.getId());
@@ -49,6 +51,28 @@ public class CarBean {
         this.car = new Car();
         em.getTransaction().commit();
         em.close();
+    }
+    public void edytuj(){
+        System.out.println(car.getVin());
+        EntityManager em = DBManager.getManager().createEntityManager();
+        em.getTransaction().begin();
+        em.merge(this.car);
+        em.getTransaction().commit();
+        em.close();
+        this.car = new Car();
+    }
+    public void dodaj(){
+        EntityManager em = DBManager.getManager().createEntityManager();
+        em.getTransaction().begin();
+        car.setId(null);
+        em.persist(this.car);
+        em.getTransaction().commit();
+        em.close();
+        this.car = new Car();
+    }
+    public Car przygotuj(){
+        car = new Car();
+        return car;
     }
     public CarBean() {
     }

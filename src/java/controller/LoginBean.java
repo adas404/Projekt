@@ -70,7 +70,7 @@ public class LoginBean {
         HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
         this.setNieZalogowany(true);
-        return null;
+        return "home";
     }
     public LoginBean() {
     }
