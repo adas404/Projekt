@@ -33,6 +33,7 @@ public class CarBean {
         EntityManager em = DBManager.getManager().createEntityManager();
         listaCar = em.createNamedQuery("Car.findAll").getResultList();
         em.close();
+        System.out.println(listaCar);
         return listaCar;
     }
 

@@ -23,8 +23,18 @@
         <managed-bean-class>controller.UzytkownikBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>mapyBean</managed-bean-name>
+        <managed-bean-class>controller.MapyBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     <converter>
         <converter-id>uzytkownikConverter</converter-id>
         <converter-class>config.UzytkownikConverter</converter-class>
     </converter>
+    <converter>
+        <converter-id>carConverter</converter-id>
+        <converter-class>config.CarConverter</converter-class>
+    </converter>
+ 
 </faces-config>

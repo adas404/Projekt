@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./szablon.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="login">
+         <p:dialog modal="true" widgetVar="dlg" appendTo="@(body)" visible="true">
+            <h:form id="hform"> 
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Wybierz zakres dat mapowania" />
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value="Data początkowa" for="data_poczatkowa"/>
+                    <p:calendar id="data_poczatkowa" value="#{mapyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
+                    <p:outputLabel value="Data końcowa" for="data_koncowa"/>
+                    <p:calendar id="data_koncowa" value="#{mapyBean.dataKoncowa}" pattern="yyy-MM-dd HH:mm:ss"/>
+                    <p:outputLabel value="Samochod" for="samochod"/>
+                    <p:selectOneMenu id="samochod" value="#{mapyBean.car}" converter="carConverter">
+                        <f:selectItems value="#{mapyBean.listaCar}" var="car" itemValue="#{car}" itemLabel="#{car.model}"/>
+                    </p:selectOneMenu>
+            </p:panelGrid>
+                <p:commandButton action="#{mapyBean.wyszukaj}" value="Wyszukaj" icon="ui-icon-check" ajax="false"/>
+            </h:panelGroup>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/progress_bar.gif" />
+                </p:dialog>  
+            </h:form>
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>
