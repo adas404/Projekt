@@ -6,30 +6,44 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="login">
-         <p:dialog modal="true" widgetVar="dlg" appendTo="@(body)" visible="true">
+    <ui:define name="content">
+        <p:dialog modal="false" widgetVar="dlg" appendTo="@(body)" visible="true">
             <h:form id="hform"> 
             <h:panelGroup id="display">
                 <p:panelGrid columns="2" >
                     <p:outputLabel value="Wybierz zakres dat mapowania" />
                     <p:outputLabel value=" "/>
                     <p:outputLabel value="Data początkowa" for="data_poczatkowa"/>
-                    <p:calendar id="data_poczatkowa" value="#{mapyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
+                    <p:calendar id="data_poczatkowa" value="#{mapyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss">
+                        <p:ajax event="dateSelect" listener="#{mapyBean.hadbleDateSelect}" update="data_koncowa"/>
+                    </p:calendar>
                     <p:outputLabel value="Data końcowa" for="data_koncowa"/>
-                    <p:calendar id="data_koncowa" value="#{mapyBean.dataKoncowa}" pattern="yyy-MM-dd HH:mm:ss"/>
+                    <p:calendar id="data_koncowa" value="#{mapyBean.dataKoncowa}" mindate="#{mapyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
                     <p:outputLabel value="Samochod" for="samochod"/>
                     <p:selectOneMenu id="samochod" value="#{mapyBean.car}" converter="carConverter">
                         <f:selectItems value="#{mapyBean.listaCar}" var="car" itemValue="#{car}" itemLabel="#{car.model}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
-                <p:commandButton action="#{mapyBean.wyszukaj}" value="Wyszukaj" icon="ui-icon-check" ajax="false"/>
+                <p:commandButton action="#{mapyBean.wyszukaj}"  value="Wyszukaj" icon="ui-icon-check" update=":mapa,:hform" />
             </h:panelGroup>
                 <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
                 <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
                     <p:graphicImage value="/images/progress_bar.gif" />
-                </p:dialog>  
+                </p:dialog>               
             </h:form>
         </p:dialog>
+        <p:growl id="message" showDetail="true" life="10000" autoUpdate="true" />
+        <p:gmap id="mapa" center="#{mapyBean.center}" zoom="15" type="ROADMAP" model="#{mapyBean.model}" style="width: 100%;height: 97%">
+            <p:ajax event="overlaySelect" listener="#{mapyBean.wyborMarkera}"/>
+            <p:gmapInfoWindow id="window">
+                <p:outputPanel >
+                    <h:outputLabel value="#{mapyBean.marker.data}" style="color: black"/>
+                </p:outputPanel>
+            </p:gmapInfoWindow>
+        </p:gmap>
+        <h:form>
+            <ui:include src="/menu.xhtml"/>
+        </h:form>
     </ui:define>
 
 </ui:composition>

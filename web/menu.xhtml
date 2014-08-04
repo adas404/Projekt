@@ -9,13 +9,13 @@
     <h:body>
         <p:stack icon="/images/stack.png" expanded="true">
             <p:menuitem value="Wyloguj" icon="/images/wyloguj.png" action="#{loginBean.wyloguj}" ajax="false"/>
-            <p:menuitem value="Mapy" icon="/images/mapy.png" url="/mapy.xhtml" />
+            <p:menuitem value="Mapy" icon="/images/mapy.png" url="/mapy.xhtml"/>
             <p:menuitem value="Raporty" icon="/images/raporty.png" />
             <p:menuitem value="Wiadomości" icon="/images/wiadomosci.png"/>
             <c:if test="#{typ == 2}">    
                 <p:menuitem value="Panel Administracyjny" icon="/images/panel.png" url="/panel.xhtml" ajax="false"/>
             </c:if>
-            <p:menuitem value="Flota" icon="/images/flota.png"/>
+            <p:menuitem value="Flota" icon="/images/flota.png" url="/flota.xhtml"/>
         </p:stack>
     </h:body>
 </html>

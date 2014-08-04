@@ -9,10 +9,16 @@ package controller;
 import config.DBManager;
 import entity.Car;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -28,12 +34,27 @@ public class CarBean {
         this.car = car;
     }
     private Car car = new Car();
-
+    
     public List<Car> getListaCar() {
-        EntityManager em = DBManager.getManager().createEntityManager();
-        listaCar = em.createNamedQuery("Car.findAll").getResultList();
-        em.close();
-        System.out.println(listaCar);
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        int typ = (Integer)session.getAttribute("typ");
+        int id =  (Integer)session.getAttribute("id");
+        Car tmp = new Car();
+        tmp.setId(9999);
+        if (typ == 2){
+            EntityManager em = DBManager.getManager().createEntityManager();
+            listaCar = em.createNamedQuery("Car.findAll").getResultList();
+            em.close();
+            }
+        else if(typ == 1){
+            EntityManager em = DBManager.getManager().createEntityManager();
+            em.getTransaction().begin();
+            listaCar = em.createQuery("SELECT c FROM Car c JOIN c.uzytkownik uzytkownik WHERE uzytkownik.id=:uz").setParameter("uz", id).getResultList();
+            em.getTransaction().commit();
+            em.close();
+            System.out.println(listaCar);
+        } if(listaCar.size() == 2)           
+            listaCar.add(tmp);
         return listaCar;
     }
 

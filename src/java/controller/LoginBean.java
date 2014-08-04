@@ -53,6 +53,7 @@ public class LoginBean {
             em.getTransaction().commit();
             em.close();
             HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            session.setAttribute("id", checkUser.getId());
             session.setAttribute("uzytkownik", checkUser.getLogin());
             session.setAttribute("imie", checkUser.getImie());
             session.setAttribute("nazwisko", checkUser.getNazwisko());

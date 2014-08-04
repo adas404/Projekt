@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./szablon.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="hform" style="text-align: center">
+            <ui:include src="/menu.xhtml"/>
+            <p:panel id="panel" header="Tu możesz edytować swoje samochody:" style="width: 99%;height: 96%">
+                <p:ring value="#{carBean.listaCar}" var="car" >
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:outputText value="VIN"/>
+                        <h:outputText value="#{car.vin}"/>
+                        <h:outputText value="Marka"/>
+                        <h:outputText value="#{car.marka}"/>
+                        <h:outputText value="Model"/>
+                        <h:outputText value="#{car.model}"/>
+                        <h:outputText value="Pojemność silnika"/>
+                        <h:outputText value="#{car.pojemnosc}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="Edytuj" oncomplete="PF('dlg2').show()" update=":dlg2form" disabled="#{car.vin == null}">
+                        <f:setPropertyActionListener value="#{car}" target="#{carBean.car}" />
+                    </p:commandButton>  
+                </p:ring>
+            </p:panel>    
+        </h:form>
+        
+        <p:dialog modal="true" widgetVar="dlg2" appendTo="@(body)" >
+            <h:form id="dlg2form">
+                <h:panelGroup id="display2">
+                    <p:panelGrid columns="2" rendered="#{carBean.car != null}">
+                    <p:outputLabel value="Marka" for="marka2"/>
+                    <p:inputText id="marka2" value="#{carBean.car.marka}"/>
+                    <p:outputLabel value="Model" for="model2"/>
+                    <p:inputText id="model2" value="#{carBean.car.model}"/>
+                    <p:outputLabel value="Pojemność" for="pojemnosc2" />
+                    <p:inputText id="pojemnosc2" value="#{carBean.car.pojemnosc}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{carBean.edytuj}" value="Edytuj" oncomplete="PF('dlg2').hide()" update="display2,:hform:panel"/>
+                </h:panelGroup>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/progress_bar.gif" />
+                </p:dialog>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>
