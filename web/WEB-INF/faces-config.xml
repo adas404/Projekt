@@ -11,7 +11,7 @@
     <managed-bean>
         <managed-bean-name>carBean</managed-bean-name>
         <managed-bean-class>controller.CarBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
+        <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <managed-bean-name>uzytkownikBean</managed-bean-name>
@@ -21,7 +21,7 @@
     <managed-bean>
         <managed-bean-name>mapyBean</managed-bean-name>
         <managed-bean-class>controller.MapyBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
+        <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
     <converter>
         <converter-id>uzytkownikConverter</converter-id>
@@ -31,5 +31,9 @@
         <converter-id>carConverter</converter-id>
         <converter-class>config.CarConverter</converter-class>
     </converter>
- 
+    <managed-bean>
+        <managed-bean-name>dziennyBean</managed-bean-name>
+        <managed-bean-class>controller.DziennyBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>

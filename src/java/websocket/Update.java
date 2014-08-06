@@ -34,7 +34,6 @@ public class Update {
     @OnMessage
     public void onMessage(String message, Session session) throws InterruptedException, IOException, ParseException {
         // Print the client message for testing purposes
-    System.out.println("Received: " + message);
     String[] part = message.split(",");
     if (part[0].equals("MAXDATE")){
         EntityManager em = DBManager.getManager().createEntityManager();
@@ -44,7 +43,6 @@ public class Update {
         if (date == null){
             Car car = new Car();
             car.setId(null);
-            System.out.println(part[1]);
             car.setVin(part[1]);
             em.persist(car);
             em.getTransaction().commit();
@@ -57,7 +55,6 @@ public class Update {
         //System.out.println("Data"+string_date);
         em.getTransaction().commit();
         em.close();
-        System.out.println(string_date);
         session.getBasicRemote().sendText(string_date);
        }
     if (part[0].equals("DB")){
@@ -72,11 +69,8 @@ public class Update {
             pozycja.setData(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(part[8]));
             EntityManager em = DBManager.getManager().createEntityManager();
             em.getTransaction().begin();
-            //System.out.println(part[2]);
             Car car = (Car)em.createNamedQuery("Car.findByVin").setParameter("vin", part[2]).getSingleResult();
-            //System.out.println(car);
             pozycja.setCar(car);
-           // pozycja.setCar(car);
             em.persist(pozycja);
             em.getTransaction().commit();
             em.close();

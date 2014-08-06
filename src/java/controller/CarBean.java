@@ -75,7 +75,6 @@ public class CarBean {
         em.close();
     }
     public void edytuj(){
-        System.out.println(car.getVin());
         EntityManager em = DBManager.getManager().createEntityManager();
         em.getTransaction().begin();
         em.merge(this.car);
