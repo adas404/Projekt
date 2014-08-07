@@ -34,6 +34,6 @@
     <managed-bean>
         <managed-bean-name>dziennyBean</managed-bean-name>
         <managed-bean-class>controller.DziennyBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
+        <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 </faces-config>

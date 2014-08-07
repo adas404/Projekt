@@ -40,7 +40,45 @@ public class DziennyBean {
     private Date data;
     
     private Car car;
+    private double sredniaPredkosc;
 
+    public double getSredniaPredkosc() {
+        return sredniaPredkosc;
+    }
+    private double srednieObroty;
+    private double srednieObciazenie;
+
+    
+
+    public double getSrednieObroty() {
+        return srednieObroty;
+    }
+
+    public double getSrednieObciazenie() {
+        return srednieObciazenie;
+    }
+
+    public double getSredniaTempChlodzacego() {
+        return sredniaTempChlodzacego;
+    }
+
+    public double getSrednieCisnienie() {
+        return srednieCisnienie;
+    }
+
+    public double getSredniaTempDolotu() {
+        return sredniaTempDolotu;
+    }
+
+    public double getSredniePolozeniePrzepustnicy() {
+        return sredniePolozeniePrzepustnicy;
+    }
+
+    
+    private double sredniaTempChlodzacego;
+    private double srednieCisnienie;
+    private double sredniaTempDolotu;
+    private double sredniePolozeniePrzepustnicy;
     public CartesianChartModel getModel() {
         return model;
     }
@@ -80,26 +118,50 @@ public class DziennyBean {
     public void setListaOdczytow(List<List<Obd2odczyt>> listaOdczytow) {
         this.listaOdczytow = listaOdczytow;
     }
-
     public String generuj(){
         model = new CartesianChartModel();
         Date j = new Date();
         ChartSeries pred = new ChartSeries();
         ChartSeries obroty = new ChartSeries();
+        ChartSeries obciazenieSilnika = new ChartSeries();
+        ChartSeries tempChlodzacego = new ChartSeries();
+        ChartSeries cisnienieKolektora = new ChartSeries();
+        ChartSeries tempDolotu = new ChartSeries();
+        ChartSeries polozeniePrzepustnicy = new ChartSeries();
         try{
             EntityManager em = DBManager.getManager().createEntityManager();
             em.getTransaction().begin();
             long tmpdate = this.data.getTime()+86400000;
             List<Obd2odczyt> odczyt = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getResultList();
             em.getTransaction().commit();
-            em.close();
             pred.setLabel("Prędkość");
+            obciazenieSilnika.setLabel("Obciążenie silnika (%)");
+            tempChlodzacego.setLabel("Temperatura płynu chłodzącego");
+            cisnienieKolektora.setLabel("Ciśnienie kolektora (KPa)");
+            tempDolotu.setLabel("Temperatura dolotu");
+            polozeniePrzepustnicy.setLabel("Położenie przepustnicy (%)");
+            obroty.setLabel("Obroty");
             for(Obd2odczyt x: odczyt){
-                pred.set(x.getData(), x.getPredkosc());
-                obroty.set(x.getData(), x.getObroty());
+                pred.set(x.getData().getTime(), x.getPredkosc());
+                obroty.set(x.getData().getTime(), x.getObroty());
+                obciazenieSilnika.set(x.getData().getTime(), x.getObciazenieSilnika());
+                tempChlodzacego.set(x.getData().getTime(), x.getTempChlodzacego());
+                cisnienieKolektora.set(x.getData().getTime(), x.getCisnienieKolektora());
+                tempDolotu.set(x.getData().getTime(), x.getTempDolotu());
+                polozeniePrzepustnicy.set(x.getData().getTime(), x.getPolozeniePrzepustnicy());
+                obroty.set(x.getData().getTime(), x.getObroty());
             }
             model.addSeries(pred);
-            model.addSeries(obroty);
+            model.addSeries(obciazenieSilnika);
+            model.addSeries(tempChlodzacego);
+            model.addSeries(cisnienieKolektora);
+            model.addSeries(tempDolotu);
+            model.addSeries(polozeniePrzepustnicy);
+            em.getTransaction().begin();
+            sredniaPredkosc = (Double)em.createQuery("SELECT AVG(o.predkosc) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
+            System.out.println(sredniaPredkosc);
+            em.getTransaction().commit();
+            em.close();
         }catch(NoResultException e){
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));
            return null;
