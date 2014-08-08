@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 
@@ -48,9 +49,8 @@ public class LoginBean {
     public String sprawdz(){
         try{
             EntityManager em = DBManager.getManager().createEntityManager();
-            em.getTransaction().begin();
+            em.setFlushMode(FlushModeType.COMMIT);
             Uzytkownik checkUser = (Uzytkownik) em.createQuery("SELECT u FROM Uzytkownik u WHERE u.login=:log AND u.haslo=:pass").setParameter("log", this.uzytkownik.getLogin()).setParameter("pass", this.uzytkownik.getHaslo()).getSingleResult();
-            em.getTransaction().commit();
             em.close();
             HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             session.setAttribute("id", checkUser.getId());

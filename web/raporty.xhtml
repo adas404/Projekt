@@ -10,6 +10,7 @@
         <h:form style="text-align: center">
             <ui:include src="/menu.xhtml"/>
             <p:commandButton value="Dzienny" onclick="PF('dlg').show()" update=":dzienny"/> 
+            <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
         </h:form>
         
         <p:dialog modal="false" widgetVar="dlg" appendTo="@(body)">

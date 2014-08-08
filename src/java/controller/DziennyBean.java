@@ -15,9 +15,12 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.MeterGaugeChartModel;
 
 
 /**
@@ -87,19 +90,47 @@ public class DziennyBean {
         this.model = model;
     }
     
-    private CartesianChartModel model;
+    private CartesianChartModel model = new CartesianChartModel();
     
     public List<Car> getListaCar() {
-        EntityManager em = DBManager.getManager().createEntityManager();
-        listaCar = em.createNamedQuery("Car.findAll").getResultList();
-        em.close();
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        int typ = (Integer)session.getAttribute("typ");
+        int id =  (Integer)session.getAttribute("id");
+        Car tmp = new Car();
+        tmp.setId(9999);
+        if (typ == 2){
+            EntityManager em = DBManager.getManager().createEntityManager();
+            listaCar = em.createNamedQuery("Car.findAll").getResultList();
+            em.close();
+            }
+        else if(typ == 1){
+            EntityManager em = DBManager.getManager().createEntityManager();
+            em.getTransaction().begin();
+            listaCar = em.createQuery("SELECT c FROM Car c JOIN c.uzytkownik uzytkownik WHERE uzytkownik.id=:uz").setParameter("uz", id).getResultList();
+            em.getTransaction().commit();
+            em.close();
+        } 
         return listaCar;
     }
+    private MeterGaugeChartModel predkosciomierz;
+    private MeterGaugeChartModel obrotomierz;
 
+    public MeterGaugeChartModel getPredkosciomierz() {
+        return predkosciomierz;
+    }
+
+    public MeterGaugeChartModel getObrotomierz() {
+        return obrotomierz;
+    }
     public void setListaCar(List<Car> listaCar) {
         this.listaCar = listaCar;
     }
     private List<Car> listaCar;
+    List<Obd2odczyt> odczyt =  new ArrayList<Obd2odczyt>();
+
+    public List<Obd2odczyt> getOdczyt() {
+        return odczyt;
+    }
 
     public Car getCar() {
         return car;
@@ -109,15 +140,6 @@ public class DziennyBean {
         this.car = car;
     }
     
-    private List<List<Obd2odczyt>> listaOdczytow;
-
-    public List<List<Obd2odczyt>> getListaOdczytow() {
-        return listaOdczytow;
-    }
-
-    public void setListaOdczytow(List<List<Obd2odczyt>> listaOdczytow) {
-        this.listaOdczytow = listaOdczytow;
-    }
     public String generuj(){
         model = new CartesianChartModel();
         Date j = new Date();
@@ -130,26 +152,23 @@ public class DziennyBean {
         ChartSeries polozeniePrzepustnicy = new ChartSeries();
         try{
             EntityManager em = DBManager.getManager().createEntityManager();
-            em.getTransaction().begin();
             long tmpdate = this.data.getTime()+86400000;
-            List<Obd2odczyt> odczyt = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getResultList();
-            em.getTransaction().commit();
+            odczyt = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getResultList();
             pred.setLabel("Prędkość");
             obciazenieSilnika.setLabel("Obciążenie silnika (%)");
             tempChlodzacego.setLabel("Temperatura płynu chłodzącego");
-            cisnienieKolektora.setLabel("Ciśnienie kolektora (KPa)");
+            cisnienieKolektora.setLabel("Ciśnienie kolektora (kPa)");
             tempDolotu.setLabel("Temperatura dolotu");
             polozeniePrzepustnicy.setLabel("Położenie przepustnicy (%)");
-            obroty.setLabel("Obroty");
+            obroty.setLabel("Obroty (100 x)");
             for(Obd2odczyt x: odczyt){
                 pred.set(x.getData().getTime(), x.getPredkosc());
-                obroty.set(x.getData().getTime(), x.getObroty());
                 obciazenieSilnika.set(x.getData().getTime(), x.getObciazenieSilnika());
                 tempChlodzacego.set(x.getData().getTime(), x.getTempChlodzacego());
                 cisnienieKolektora.set(x.getData().getTime(), x.getCisnienieKolektora());
                 tempDolotu.set(x.getData().getTime(), x.getTempDolotu());
                 polozeniePrzepustnicy.set(x.getData().getTime(), x.getPolozeniePrzepustnicy());
-                obroty.set(x.getData().getTime(), x.getObroty());
+                obroty.set(x.getData().getTime(), x.getObroty()/100);
             }
             model.addSeries(pred);
             model.addSeries(obciazenieSilnika);
@@ -157,10 +176,16 @@ public class DziennyBean {
             model.addSeries(cisnienieKolektora);
             model.addSeries(tempDolotu);
             model.addSeries(polozeniePrzepustnicy);
-            em.getTransaction().begin();
+            model.addSeries(obroty);
             sredniaPredkosc = (Double)em.createQuery("SELECT AVG(o.predkosc) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
-            System.out.println(sredniaPredkosc);
-            em.getTransaction().commit();
+            sredniaTempChlodzacego = (Double)em.createQuery("SELECT AVG(o.tempChlodzacego) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
+            sredniaTempDolotu = (Double)em.createQuery("SELECT AVG(o.tempDolotu) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
+            srednieCisnienie = (Double)em.createQuery("SELECT AVG(o.cisnienieKolektora) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
+            srednieObciazenie = (Double)em.createQuery("SELECT AVG(o.obciazenieSilnika) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
+            srednieObroty = (Double)em.createQuery("SELECT AVG(o.obroty) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
+            sredniePolozeniePrzepustnicy = (Double)em.createQuery("SELECT AVG(o.polozeniePrzepustnicy) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
+            predkosciomierz = new MeterGaugeChartModel(sredniaPredkosc, new ArrayList<Number>(){{add(20);add(50);add(120);add(220);}});
+            obrotomierz = new MeterGaugeChartModel(srednieObroty, new ArrayList<Number>(){{add(1000);add(2500);add(5000);add(7000);}});
             em.close();
         }catch(NoResultException e){
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));
@@ -168,7 +193,11 @@ public class DziennyBean {
         }catch(ArrayIndexOutOfBoundsException a){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));
             return null;
+        }catch(NullPointerException n){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));
+            return null;
         }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Udało się!", "Oto dzienny raport wygenerowany specjalnie dla Ciebie"));
         return "dzienny";
     }
     public DziennyBean() {

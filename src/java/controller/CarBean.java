@@ -52,7 +52,6 @@ public class CarBean {
             listaCar = em.createQuery("SELECT c FROM Car c JOIN c.uzytkownik uzytkownik WHERE uzytkownik.id=:uz").setParameter("uz", id).getResultList();
             em.getTransaction().commit();
             em.close();
-            System.out.println(listaCar);
         } if(listaCar.size() == 2)           
             listaCar.add(tmp);
         return listaCar;

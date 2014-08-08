@@ -70,9 +70,9 @@ public class Car implements Serializable {
     @JoinColumn(name = "id_uzytkownik", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Uzytkownik uzytkownik;
-    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
     private Set<Pozycja> pozycjaSet;
-    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
     private Set<Obd2odczyt> obd2odczytSet;
 
     public Car() {

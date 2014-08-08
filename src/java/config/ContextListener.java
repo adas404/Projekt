@@ -8,7 +8,6 @@ package config;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import config.DBManager;
 
 /**
  *

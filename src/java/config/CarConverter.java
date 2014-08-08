@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 
 
 
@@ -26,6 +27,7 @@ public class CarConverter implements Converter{
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
         Integer i = Integer.valueOf(string);
         EntityManager em = DBManager.getManager().createEntityManager();
+        em.setFlushMode(FlushModeType.COMMIT);
         Car p = em.find(Car.class, i);
         em.close();
         return p;

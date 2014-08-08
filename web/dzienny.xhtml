@@ -11,10 +11,58 @@
             <ui:include src="/menu.xhtml"/>
         </h:form>
         <h:form>
+            <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
             <p:fieldset legend="Wykres" toggleable="true">
                 <p:lineChart value="#{dziennyBean.model}" legendPosition="e" zoom="true" xaxisLabel="Czas" xaxisAngle="-90" animate="true" extender="ext2" style="height: 600px">
                  
                 </p:lineChart>
+            </p:fieldset>
+            <p:fieldset legend="Średnie odczyty" toggleable="true" collapsed="true" style="text-align: center">
+                <h:panelGrid columns="2">
+                    <p:meterGaugeChart value="#{dziennyBean.predkosciomierz}" style="width: 500px"/>
+                    <p:meterGaugeChart value="#{dziennyBean.obrotomierz}" style="width: 500px"/>
+                </h:panelGrid>
+                <p:panelGrid columns="2" >
+                    <h:outputText value="Prędkość:"/>
+                    <h:outputText value="#{dziennyBean.sredniaPredkosc}"/>
+                    <h:outputText value="Obroty silnika:"/>
+                    <h:outputText value="#{dziennyBean.srednieObroty}"/>
+                    <h:outputText value="Położenie przepustnicy (%):"/>
+                    <h:outputText value="#{dziennyBean.sredniePolozeniePrzepustnicy}"/>
+                    <h:outputText value="Obciążenie silnika (%):"/>
+                    <h:outputText value="#{dziennyBean.srednieObciazenie}"/>
+                    <h:outputText value="Ciśnienie kolektora:"/>
+                    <h:outputText value="#{dziennyBean.srednieCisnienie}"/>
+                    <h:outputText value="Temperatura płynu chłodzącego:"/>
+                    <h:outputText value="#{dziennyBean.sredniaTempChlodzacego}"/>
+                    <h:outputText value="Temperatura dolotu powietrza:"/>
+                    <h:outputText value="#{dziennyBean.sredniaTempDolotu}"/>
+                </p:panelGrid>
+            </p:fieldset>
+            <p:fieldset legend="Szegółowe odczyty" toggleable="true" collapsed="true">
+                <p:dataTable var="odczyt" value="#{dziennyBean.odczyt}" >
+                    <p:column headerText="Data odczytu">
+                        <h:outputText value="#{odczyt.data}"/>
+                    </p:column>
+                    <p:column headerText="Prędkość">
+                        <h:outputText value="#{odczyt.predkosc}"/>
+                    </p:column>
+                    <p:column headerText="Obroty">
+                        <h:outputText value="#{odczyt.obroty}"/>
+                    </p:column>
+                    <p:column headerText="Obciązenie silnika (%)">
+                        <h:outputText value="#{odczyt.obciazenieSilnika}"/>
+                    </p:column>
+                    <p:column headerText="Położenie przepustnicy">
+                        <h:outputText value="#{odczyt.polozeniePrzepustnicy}"/>
+                    </p:column>
+                    <p:column headerText="Temperatura płynu chłodzącego">
+                        <h:outputText value="#{odczyt.tempChlodzacego}"/>
+                    </p:column>
+                    <p:column headerText="Temperatura dolotu powietrza">
+                        <h:outputText value="#{odczyt.tempDolotu}"/>
+                    </p:column>
+                </p:dataTable>
             </p:fieldset>
         </h:form>
     <script type="text/javascript" src="jqplot.dateAxisRenderer.min.js"></script>

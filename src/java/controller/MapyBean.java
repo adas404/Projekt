@@ -17,7 +17,9 @@ import java.util.Random;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
@@ -97,9 +99,23 @@ public class MapyBean {
     private Car car;
     private Pozycja pozycja= new Pozycja();
     public List<Car> getListaCar() {
-        EntityManager em = DBManager.getManager().createEntityManager();
-        listaCar = em.createNamedQuery("Car.findAll").getResultList();
-        em.close();
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        int typ = (Integer)session.getAttribute("typ");
+        int id =  (Integer)session.getAttribute("id");
+        Car tmp = new Car();
+        tmp.setId(9999);
+        if (typ == 2){
+            EntityManager em = DBManager.getManager().createEntityManager();
+            listaCar = em.createNamedQuery("Car.findAll").getResultList();
+            em.close();
+            }
+        else if(typ == 1){
+            EntityManager em = DBManager.getManager().createEntityManager();
+            em.getTransaction().begin();
+            listaCar = em.createQuery("SELECT c FROM Car c JOIN c.uzytkownik uzytkownik WHERE uzytkownik.id=:uz").setParameter("uz", id).getResultList();
+            em.getTransaction().commit();
+            em.close();
+        }
         return listaCar;
     }
 
@@ -115,9 +131,8 @@ public class MapyBean {
         Random generator = new Random();
         try{
             EntityManager em = DBManager.getManager().createEntityManager();
-            em.getTransaction().begin();
+            em.setFlushMode(FlushModeType.COMMIT);
             List<Pozycja> list = em.createQuery("SELECT p FROM Pozycja p JOIN p.car car WHERE car.vin=:vin AND p.data>=:datap AND p.data<=:datak").setParameter("vin", car.getVin()).setParameter("datap", dataPoczatkowa).setParameter("datak", dataKoncowa).getResultList();
-            em.getTransaction().commit();
         
             for (Pozycja x : list){
                 if (j != null){
