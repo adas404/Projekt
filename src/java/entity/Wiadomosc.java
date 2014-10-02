@@ -52,10 +52,10 @@ public class Wiadomosc implements Serializable {
     @Column(name = "tresc", length = 65535)
     private String tresc;
     @JoinColumn(name = "id_uzytkownik_to", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Uzytkownik uzytkownik;
     @JoinColumn(name = "id_uzytkownik_from", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Uzytkownik uzytkownik1;
 
     public Wiadomosc() {

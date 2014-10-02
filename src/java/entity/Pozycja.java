@@ -74,7 +74,7 @@ public class Pozycja implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
     @JoinColumn(name = "car_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
 
     public Pozycja() {

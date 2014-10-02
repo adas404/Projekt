@@ -22,6 +22,10 @@
         <managed-bean-name>mapyBean</managed-bean-name>
         <managed-bean-class>controller.MapyBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
+         <managed-property> 
+            <property-name>carBean</property-name>
+            <value>#{carBean}</value>
+        </managed-property>
     </managed-bean>
     <converter>
         <converter-id>uzytkownikConverter</converter-id>

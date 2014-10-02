@@ -32,12 +32,22 @@ import org.primefaces.model.map.Polyline;
  *
  * @author Adam
  */
-public class MapyBean {
+public class MapyBean{
 
     /**
      * Creates a new instance of MapyBean
      * @return 
      */
+    private CarBean carBean = new CarBean();
+
+    public CarBean getCarBean() {
+        return carBean;
+    }
+
+    public void setCarBean(CarBean carBean) {
+        this.carBean = carBean;
+    }
+    
     public void hadbleDateSelect(SelectEvent event){
         Date date = (Date) event.getObject();
         this.dataPoczatkowa = date;
@@ -80,13 +90,7 @@ public class MapyBean {
     private Date dataPoczatkowa;
     private Date dataKoncowa;
 
-    public Car getCar() {
-        return car;
-    }
 
-    public void setCar(Car car) {
-        this.car = car;
-    }
 
     public String getCenter() {
         return center;
@@ -96,33 +100,8 @@ public class MapyBean {
         this.center = center;
     }
     private String center;
-    private Car car;
     private Pozycja pozycja= new Pozycja();
-    public List<Car> getListaCar() {
-        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        int typ = (Integer)session.getAttribute("typ");
-        int id =  (Integer)session.getAttribute("id");
-        Car tmp = new Car();
-        tmp.setId(9999);
-        if (typ == 2){
-            EntityManager em = DBManager.getManager().createEntityManager();
-            listaCar = em.createNamedQuery("Car.findAll").getResultList();
-            em.close();
-            }
-        else if(typ == 1){
-            EntityManager em = DBManager.getManager().createEntityManager();
-            em.getTransaction().begin();
-            listaCar = em.createQuery("SELECT c FROM Car c JOIN c.uzytkownik uzytkownik WHERE uzytkownik.id=:uz").setParameter("uz", id).getResultList();
-            em.getTransaction().commit();
-            em.close();
-        }
-        return listaCar;
-    }
 
-    public void setListaCar(List<Car> listaCar) {
-        this.listaCar = listaCar;
-    }
-    private List<Car> listaCar;
     public String wyszukaj(){
         List<Polyline> listaPolinii = new ArrayList<Polyline>();
         Polyline polynie = new Polyline();
@@ -132,7 +111,7 @@ public class MapyBean {
         try{
             EntityManager em = DBManager.getManager().createEntityManager();
             em.setFlushMode(FlushModeType.COMMIT);
-            List<Pozycja> list = em.createQuery("SELECT p FROM Pozycja p JOIN p.car car WHERE car.vin=:vin AND p.data>=:datap AND p.data<=:datak").setParameter("vin", car.getVin()).setParameter("datap", dataPoczatkowa).setParameter("datak", dataKoncowa).getResultList();
+            List<Pozycja> list = em.createQuery("SELECT p FROM Pozycja p JOIN p.car car WHERE car.vin=:vin AND p.data>=:datap AND p.data<=:datak").setParameter("vin", carBean.getCar().getVin()).setParameter("datap", dataPoczatkowa).setParameter("datak", dataKoncowa).getResultList();
         
             for (Pozycja x : list){
                 if (j != null){
@@ -149,9 +128,9 @@ public class MapyBean {
             listaPolinii.add(polynie);
             for (Polyline x : listaPolinii){
  //           model.addOverlay(new Marker(x.getPaths().get(0)));
-                List<Date> data = em.createQuery("SELECT p.data FROM Pozycja p JOIN p.car car WHERE car.vin=:vin AND p.lat=:lat AND p.lng=:lng").setParameter("vin", car.getVin()).setParameter("lat", x.getPaths().get(x.getPaths().size()-1).getLat()).setParameter("lng", x.getPaths().get(x.getPaths().size()-1).getLng()).getResultList();
+                List<Date> data = em.createQuery("SELECT p.data FROM Pozycja p JOIN p.car car WHERE car.vin=:vin AND p.lat=:lat AND p.lng=:lng").setParameter("vin", carBean.getCar().getVin()).setParameter("lat", x.getPaths().get(x.getPaths().size()-1).getLat()).setParameter("lng", x.getPaths().get(x.getPaths().size()-1).getLng()).getResultList();
                 model.addOverlay(new Marker(x.getPaths().get(x.getPaths().size()-1),"Stop","Stop trasy: "+data.get(data.size()-1).toString(),"/images/stop_marker.png"));               
-                data = em.createQuery("SELECT p.data FROM Pozycja p JOIN p.car car WHERE car.vin=:vin AND p.lat=:lat AND p.lng=:lng").setParameter("vin", car.getVin()).setParameter("lat", x.getPaths().get(0).getLat()).setParameter("lng", x.getPaths().get(0).getLng()).getResultList();
+                data = em.createQuery("SELECT p.data FROM Pozycja p JOIN p.car car WHERE car.vin=:vin AND p.lat=:lat AND p.lng=:lng").setParameter("vin", carBean.getCar().getVin()).setParameter("lat", x.getPaths().get(0).getLat()).setParameter("lng", x.getPaths().get(0).getLng()).getResultList();
                 model.addOverlay(new Marker(x.getPaths().get(0),"Start","Start trasy: "+data.get(0).toString(),"/images/start_marker.png"));
                 x.setStrokeColor(kolory[generator.nextInt(5)]);
                 x.setStrokeWeight(5);
