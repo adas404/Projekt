@@ -65,7 +65,7 @@ public class LoginBean {
             this.setNieZalogowany(true);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepowodzenie logowania", "Błędne dane"));
         }
-       return "home";
+       return "index";
     }
     public String wyloguj(){
         HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);

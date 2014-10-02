@@ -20,8 +20,8 @@
                     <p:outputLabel value="Data końcowa" for="data_koncowa"/>
                     <p:calendar id="data_koncowa" value="#{mapyBean.dataKoncowa}" mindate="#{mapyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
                     <p:outputLabel value="Samochod" for="samochod"/>
-                    <p:selectOneMenu id="samochod" value="#{mapyBean.carBean.car}" converter="carConverter">
-                        <f:selectItems value="#{mapyBean.carBean.listaCar}" var="car" itemValue="#{car}" itemLabel="#{car.model}"/>
+                    <p:selectOneMenu id="samochod" value="#{mapyBean.car}" converter="carConverter">
+                        <f:selectItems value="#{mapyBean.listaCar}" var="car" itemValue="#{car}" itemLabel="#{car.model}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
                 <p:commandButton action="#{mapyBean.wyszukaj}"  value="Wyszukaj" icon="ui-icon-check" update=":mapa,:hform" />

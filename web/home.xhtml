@@ -24,7 +24,7 @@
                     <p:password id="password" value="#{loginBean.uzytkownik.haslo}">
                         <f:validateBean disabled="true"/>
                     </p:password>
-                    <p:commandButton value="Potwierdź" action="#{loginBean.sprawdz}" update="dialog,hform" />
+                    <p:commandButton value="Potwierdź" action="#{loginBean.sprawdz}" update="hform" />
                     <p:messages id="messages" showDetail="true" closable="true" />
                 </p:panelGrid>
             </p:dialog>
