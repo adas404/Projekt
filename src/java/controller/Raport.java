@@ -20,6 +20,16 @@ public class Raport {
     public Raport(){
         
     }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+    Car car;
+    
     public List<Car> getListaCar() {
         HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         int typ = (Integer)session.getAttribute("typ");

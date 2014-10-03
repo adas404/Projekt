@@ -82,13 +82,6 @@ public class MapyBean extends Raport {
     private Date dataPoczatkowa;
     private Date dataKoncowa;
 
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
 
     public String getCenter() {
         return center;
@@ -98,7 +91,6 @@ public class MapyBean extends Raport {
         this.center = center;
     }
     private String center;
-    private Car car;
     private Pozycja pozycja= new Pozycja();
 
     public String wyszukaj(){

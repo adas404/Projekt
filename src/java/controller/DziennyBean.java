@@ -42,7 +42,6 @@ public class DziennyBean extends Raport {
 
     private Date data;
     
-    private Car car;
     private double sredniaPredkosc;
 
     public double getSredniaPredkosc() {
@@ -107,15 +106,6 @@ public class DziennyBean extends Raport {
     public List<Obd2odczyt> getOdczyt() {
         return odczyt;
     }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
-    
     public String generuj(){
         model = new CartesianChartModel();
         Date j = new Date();
