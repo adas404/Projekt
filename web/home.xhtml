@@ -9,7 +9,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="login">
-        <h:form id="hform"> 
+        <h:form id="hform">
             <ui:include src="menu.xhtml"/>
             <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
             <p:dialog header="Okno logowania" widgetVar="dlg" resizable="false" height="200" width="500" modal="true" draggable="false" closable="false" position="center" id="dialog" visible="#{loginBean.nieZalogowany}" >
@@ -24,7 +24,7 @@
                     <p:password id="password" value="#{loginBean.uzytkownik.haslo}">
                         <f:validateBean disabled="true"/>
                     </p:password>
-                    <p:commandButton value="Potwierdź" action="#{loginBean.sprawdz}" update="hform" />
+                    <p:commandButton value="Potwierdź" action="#{loginBean.sprawdz}" update=":hform:dialog,:hform:menu" />
                     <p:messages id="messages" showDetail="true" closable="true" />
                 </p:panelGrid>
             </p:dialog>
