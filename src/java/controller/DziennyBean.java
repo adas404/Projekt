@@ -27,7 +27,7 @@ import org.primefaces.model.chart.MeterGaugeChartModel;
  *
  * @author Adam
  */
-public class DziennyBean {
+public class DziennyBean extends Raport {
 
     /**
      * Creates a new instance of DziennyBean
@@ -42,7 +42,6 @@ public class DziennyBean {
 
     private Date data;
     
-    private Car car;
     private double sredniaPredkosc;
 
     public double getSredniaPredkosc() {
@@ -92,26 +91,6 @@ public class DziennyBean {
     
     private CartesianChartModel model = new CartesianChartModel();
     
-    public List<Car> getListaCar() {
-        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        int typ = (Integer)session.getAttribute("typ");
-        int id =  (Integer)session.getAttribute("id");
-        Car tmp = new Car();
-        tmp.setId(9999);
-        if (typ == 2){
-            EntityManager em = DBManager.getManager().createEntityManager();
-            listaCar = em.createNamedQuery("Car.findAll").getResultList();
-            em.close();
-            }
-        else if(typ == 1){
-            EntityManager em = DBManager.getManager().createEntityManager();
-            em.getTransaction().begin();
-            listaCar = em.createQuery("SELECT c FROM Car c JOIN c.uzytkownik uzytkownik WHERE uzytkownik.id=:uz").setParameter("uz", id).getResultList();
-            em.getTransaction().commit();
-            em.close();
-        } 
-        return listaCar;
-    }
     private MeterGaugeChartModel predkosciomierz;
     private MeterGaugeChartModel obrotomierz;
 
@@ -122,24 +101,11 @@ public class DziennyBean {
     public MeterGaugeChartModel getObrotomierz() {
         return obrotomierz;
     }
-    public void setListaCar(List<Car> listaCar) {
-        this.listaCar = listaCar;
-    }
-    private List<Car> listaCar;
     List<Obd2odczyt> odczyt =  new ArrayList<Obd2odczyt>();
 
     public List<Obd2odczyt> getOdczyt() {
         return odczyt;
     }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
-    
     public String generuj(){
         model = new CartesianChartModel();
         Date j = new Date();

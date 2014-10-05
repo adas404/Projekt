@@ -34,7 +34,7 @@ import org.primefaces.model.map.Polyline;
  *
  * @author Adam
  */
-public class MapyBean {
+public class MapyBean extends Raport {
 
     /**
      * Creates a new instance of MapyBean
@@ -82,13 +82,6 @@ public class MapyBean {
     private Date dataPoczatkowa;
     private Date dataKoncowa;
 
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
 
     public String getCenter() {
         return center;
@@ -98,19 +91,8 @@ public class MapyBean {
         this.center = center;
     }
     private String center;
-    private Car car;
     private Pozycja pozycja= new Pozycja();
-    public List<Car> getListaCar() {
-        EntityManager em = DBManager.getManager().createEntityManager();
-        listaCar = em.createNamedQuery("Car.findAll").getResultList();
-        em.close();
-        return listaCar;
-    }
 
-    public void setListaCar(List<Car> listaCar) {
-        this.listaCar = listaCar;
-    }
-    private List<Car> listaCar;
     public String wyszukaj(){
         List<Polyline> listaPolinii = new ArrayList<Polyline>();
         Polyline polynie = new Polyline();
