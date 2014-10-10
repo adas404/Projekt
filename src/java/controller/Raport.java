@@ -7,10 +7,12 @@ package controller;
 
 import config.DBManager;
 import entity.Car;
+import java.util.Date;
 import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -55,4 +57,26 @@ public class Raport {
         this.listaCar = listaCar;
     }
     private List<Car> listaCar;
+    
+        public Date getDataPoczatkowa() {
+        return dataPoczatkowa;
+    }
+
+    public void setDataPoczatkowa(Date dataPoczatkowa) {
+        this.dataPoczatkowa = dataPoczatkowa;
+    }
+
+    public Date getDataKoncowa() {
+        return dataKoncowa;
+    }
+
+    public void setDataKoncowa(Date dataKoncowa) {
+        this.dataKoncowa = dataKoncowa;
+    }
+    Date dataPoczatkowa;
+    Date dataKoncowa;
+    public void hadbleDateSelect(SelectEvent event){
+        Date date = (Date) event.getObject();
+        this.dataPoczatkowa = date;
+    }
 }

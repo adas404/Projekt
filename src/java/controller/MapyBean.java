@@ -40,10 +40,6 @@ public class MapyBean extends Raport {
      * Creates a new instance of MapyBean
      * @return 
      */
-    public void hadbleDateSelect(SelectEvent event){
-        Date date = (Date) event.getObject();
-        this.dataPoczatkowa = date;
-    }
     public Marker getMarker() {
         return marker;
     }
@@ -63,24 +59,6 @@ public class MapyBean extends Raport {
     public void setPozycja(Pozycja pozycja) {
         this.pozycja = pozycja;
     }
-
-    public Date getDataPoczatkowa() {
-        return dataPoczatkowa;
-    }
-
-    public void setDataPoczatkowa(Date dataPoczatkowa) {
-        this.dataPoczatkowa = dataPoczatkowa;
-    }
-
-    public Date getDataKoncowa() {
-        return dataKoncowa;
-    }
-
-    public void setDataKoncowa(Date dataKoncowa) {
-        this.dataKoncowa = dataKoncowa;
-    }
-    private Date dataPoczatkowa;
-    private Date dataKoncowa;
 
 
     public String getCenter() {

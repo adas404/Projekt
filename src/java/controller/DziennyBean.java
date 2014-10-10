@@ -153,15 +153,9 @@ public class DziennyBean extends Raport {
             predkosciomierz = new MeterGaugeChartModel(sredniaPredkosc, new ArrayList<Number>(){{add(20);add(50);add(120);add(220);}});
             obrotomierz = new MeterGaugeChartModel(srednieObroty, new ArrayList<Number>(){{add(1000);add(2500);add(5000);add(7000);}});
             em.close();
-        }catch(NoResultException e){
+        }catch(NoResultException | ArrayIndexOutOfBoundsException | NullPointerException e){
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));
            return null;
-        }catch(ArrayIndexOutOfBoundsException a){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));
-            return null;
-        }catch(NullPointerException n){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));
-            return null;
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Udało się!", "Oto dzienny raport wygenerowany specjalnie dla Ciebie"));
         return "dzienny";

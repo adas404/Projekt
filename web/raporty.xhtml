@@ -9,7 +9,8 @@
     <ui:define name="content">
         <h:form style="text-align: center">
             <ui:include src="/menu.xhtml"/>
-            <p:commandButton value="Dzienny" onclick="PF('dlg').show()" update=":dzienny"/> 
+            <p:commandButton value="Dzienny" onclick="PF('dlg').show()" update=":dzienny"/>
+            <p:commandButton value="Okresowy porównawczy" onclick="PF('dlg2').show()" update=":porownawczy"/>
             <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
         </h:form>
         
@@ -33,6 +34,29 @@
                     <p:graphicImage value="/images/progress_bar.gif" />
                 </p:dialog>               
             </h:form>
+        </p:dialog>
+        
+        <p:dialog modal="false" widgetVar="dlg2" appendTo="@(body)">
+            <h:form id="porownawczy" >
+                <h:panelGroup >
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Wybierz zakres dat do raportu" />
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value="Data początkowa" for="data_poczatkowa"/>
+                    <p:calendar id="data_poczatkowa" value="#{porownawczyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss">
+                        <p:ajax event="dateSelect" listener="#{porownawczyBean.hadbleDateSelect}" update="data_koncowa"/>
+                    </p:calendar>
+                    <p:outputLabel value="Data końcowa" for="data_koncowa"/>
+                    <p:calendar id="data_koncowa" value="#{porownawczyBean.dataKoncowa}" mindate="#{porownawczyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
+                </p:panelGrid>
+                    <p:commandButton action="#{porownawczyBean.dalej}"  value="Dalej" onclick="PF('statusDialog').show()" />
+                </h:panelGroup>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/progress_bar.gif" />
+                </p:dialog> 
+            </h:form>
+            
         </p:dialog>
     </ui:define>
 
