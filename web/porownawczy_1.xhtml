@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./szablon.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form>
+            <ui:include src="/menu.xhtml"/>
+        </h:form>
+        <h:form>
+            <p:dataTable id="t" var="trasa" value="#{porownawczyBean.trasy}" rowKey="#{trasa.dataPoczatkowa}" selection="#{porownawczyBean.trasy}">
+                <f:facet name="header">
+                    Wybierz trasy do raportu
+                </f:facet>
+                <p:column selectionMode="multiple" style="width: 16px;text-align: center"/>
+                <p:column headerText="Samochód">
+                    <h:outputText value="#{trasa.car.model}"/>
+                </p:column>
+                <p:column headerText="Data początku trasy">
+                    <h:outputText value="#{trasa.dataPoczatkowa}"/>
+                </p:column>
+                <p:column headerText="Data końca trasy">
+                    <h:outputText value="#{trasa.dataKoncowa}"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton  value="Generuj" action="#{porownawczyBean.generuj()}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
