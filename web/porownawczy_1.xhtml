@@ -27,6 +27,10 @@
                 </p:column>
             </p:dataTable>
             <p:commandButton  value="Generuj" action="#{porownawczyBean.generuj()}"/>
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/progress_bar.gif" />
+                </p:dialog>
         </h:form>
     </ui:define>
 

@@ -11,7 +11,16 @@
             <ui:include src="/menu.xhtml"/>
         </h:form>
         <h:form>
-            <p:barChart value="#{porownawczyBean.model}" legendPosition="se" orientation="horizontal" stacked="true"/>
+            <p:fieldset legend="Czas jazdy w/poza miastem" toggleable="true" collapsed="true" toggleSpeed="500">
+                <h:outputText value="Wykres ze wszystkich wybranych tras. Łączny czas podróży wyniósł #{porownawczyBean.pieChart.godziny} h #{porownawczyBean.pieChart.minuty} min #{porownawczyBean.pieChart.sekundy} sek. Jechałeś ze
+                              średnią prędkością #{porownawczyBean.pieChart.sredniaPredkosc} km/h więc udało Ci się pokonać #{porownawczyBean.pieChart.dlugoscTrasy} km" />
+                <p:pieChart value="#{porownawczyBean.pieChart.caloscPie}" legendPosition="w"/>
+                <ui:repeat value="#{porownawczyBean.pieChart.listaPie}" var="pie">
+                    <p:fieldset legend="#{pie.title}" toggleable="true" collapsed="true" toggleSpeed="500">
+                        <p:pieChart value="#{pie}" legendPosition="w"/>
+                    </p:fieldset>
+                </ui:repeat>
+            </p:fieldset>
         </h:form>
     </ui:define>
 

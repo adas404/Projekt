@@ -10,7 +10,7 @@
         <h:form style="text-align: center">
             <ui:include src="/menu.xhtml"/>
             <p:commandButton value="Dzienny" onclick="PF('dlg').show()" update=":dzienny"/>
-            <p:commandButton value="Okresowy porównawczy" onclick="PF('dlg2').show()" update=":porownawczy"/>
+            <p:commandButton value="Okresowy porównawczy" actionListener="#{porownawczyBean.przygotuj}" onclick="PF('dlg2').show()" update=":porownawczy"/>
             <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
         </h:form>
         
@@ -24,7 +24,7 @@
                     <p:calendar id="data_koncowa" value="#{dziennyBean.data}" pattern="yyy-MM-dd "/>
                     <p:outputLabel value="Samochod" for="samochod"/>
                     <p:selectOneMenu id="samochod" value="#{dziennyBean.car}" converter="carConverter">
-                        <f:selectItems value="#{dziennyBean.listaCar}" var="car" itemValue="#{car}" itemLabel="#{car.model}"/>
+                        <f:selectItems value="#{dziennyBean.listaCar}" var="car" itemValue="#{car}" itemLabel="#{car.marka} #{car.model}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
                 <p:commandButton action="#{dziennyBean.generuj}"  value="Generuj raport" icon="ui-icon-check" onclick="PF('statusDialog').show()" />

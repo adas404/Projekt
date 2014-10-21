@@ -58,7 +58,7 @@
                     <p:outputLabel value="Uzytkownik" for="uzytkownik"/>
                     <p:selectOneMenu id="uzytkownik" value="#{carBean.car.uzytkownik}" required="true">
                         <f:converter converterId="uzytkownikConverter"/>
-                        <f:selectItems value="#{uzytkownikBean.listaUzytkownik}" var="uzytkownik" itemValue="#{uzytkownik}" itemLabel="#{uzytkownik.nazwisko}"/>
+                        <f:selectItems value="#{uzytkownikBean.listaUzytkownik}" var="uzytkownik" itemValue="#{uzytkownik}" itemLabel="#{uzytkownik.imie} #{uzytkownik.nazwisko}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
                 <p:commandButton actionListener="#{carBean.dodaj}" value="Dodaj" icon="ui-icon-check" oncomplete="PF('dlg').hide()" update="display,:car_form:car_datatable"/>
@@ -86,7 +86,7 @@
                     <p:outputLabel value="Uzytkownik" for="uzytkownik2"/>
                     <p:selectOneMenu id="uzytkownik2" value="#{carBean.car.uzytkownik}" required="true">
                         <f:converter converterId="uzytkownikConverter"/>
-                        <f:selectItems value="#{uzytkownikBean.listaUzytkownik}" var="uzytkownik" itemValue="#{uzytkownik}" itemLabel="#{uzytkownik.imie}"/>
+                        <f:selectItems value="#{uzytkownikBean.listaUzytkownik}" var="uzytkownik" itemValue="#{uzytkownik}" itemLabel="#{uzytkownik.imie} #{uzytkownik.nazwisko}"/>
                     </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{carBean.edytuj}" value="Edytuj" oncomplete="PF('dlg2').hide()" update="display2,:car_form:car_datatable"/>
