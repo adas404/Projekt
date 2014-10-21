@@ -21,7 +21,7 @@ import javax.servlet.ServletException;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
-import others.PieChart;
+import others.PieChartMiasto;
 import others.Trasa;
 
 /**
@@ -34,14 +34,14 @@ public class PorownawczyBean extends Raport{
      * Creates a new instance of PorownawczyBean
      */
 
-    private PieChart pieChart = new PieChart();
+    private PieChartMiasto pieChartMiasto = new PieChartMiasto();
 
-    public PieChart getPieChart() {
-        return pieChart;
+    public PieChartMiasto getPieChartMiasto() {
+        return pieChartMiasto;
     }
 
-    public void setPieChart(PieChart pieChart) {
-        this.pieChart = pieChart;
+    public void setPieChartMiasto(PieChartMiasto pieChartMiasto) {
+        this.pieChartMiasto = pieChartMiasto;
     }
     public PorownawczyBean() {
     }
@@ -56,7 +56,7 @@ public class PorownawczyBean extends Raport{
     }
     
     public void przygotuj(){
-        pieChart = new PieChart();
+        pieChartMiasto = new PieChartMiasto();
         trasy = new ArrayList<Trasa>();
         dataKoncowa = null;
         dataPoczatkowa =  null;
@@ -125,7 +125,7 @@ public class PorownawczyBean extends Raport{
                 tmpPie.set("Miasto", miasto);
                 tmpPie.set("Poza miastem", pozaMiastem);
                 tmpPie.setTitle(x.getDataPoczatkowa().toString());
-                pieChart.getListaPie().add(tmpPie);
+                pieChartMiasto.getListaPie().add(tmpPie);
                 tmpTime += x.getDataKoncowa().getTime() - x.getDataPoczatkowa().getTime();
                 time += tmpTime;
                 tmpDlugoscTrasy += (tmpSredniaPredkosc) * ((double)(new Date(tmpTime).getHours()-1) + (((double)(new Date(tmpTime).getMinutes()))/60) + (((double)(new Date(tmpTime).getSeconds()))/3600));
@@ -138,15 +138,15 @@ public class PorownawczyBean extends Raport{
             pozaMiastem= 0;
         }
         sredniaPredkosc /= trasy.size();
-        pieChart.setSredniaPredkosc(sredniaPredkosc);
-        pieChart.setGodziny(new Date(time).getHours()-1);
-        pieChart.setMinuty(new Date(time).getMinutes());
-        pieChart.setSekundy(new Date(time).getSeconds());
-        pieChart.setDlugoscTrasy(tmpDlugoscTrasy);
+        pieChartMiasto.setSredniaPredkosc(sredniaPredkosc);
+        pieChartMiasto.setGodziny(new Date(time).getHours()-1);
+        pieChartMiasto.setMinuty(new Date(time).getMinutes());
+        pieChartMiasto.setSekundy(new Date(time).getSeconds());
+        pieChartMiasto.setDlugoscTrasy(tmpDlugoscTrasy);
   //      dlugoscTrasy = sredniaPredkosc * (double)((double)godziny + (double)((double)minuty/60) + (double)((double)sekundy/3600));
-        pieChart.getCaloscPie().set("Miasto", miastoCalosc);
-        pieChart.getCaloscPie().set("Poza miastem", pozaMiastemCalosc);
-        pieChart.getCaloscPie().setTitle("Łączny czas ze wszystkich tras");
+        pieChartMiasto.getCaloscPie().set("Miasto", miastoCalosc);
+        pieChartMiasto.getCaloscPie().set("Poza miastem", pozaMiastemCalosc);
+        pieChartMiasto.getCaloscPie().setTitle("Łączny czas ze wszystkich tras");
         em.close();
         return "porownawczy_2";
     }

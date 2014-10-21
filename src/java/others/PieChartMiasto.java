@@ -13,8 +13,8 @@ import org.primefaces.model.chart.PieChartModel;
  *
  * @author Adam
  */
-public class PieChart {
-    public PieChart(){
+public class PieChartMiasto {
+    public PieChartMiasto(){
         
     }
     private PieChartModel caloscPie = new PieChartModel();
