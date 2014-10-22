@@ -14,12 +14,15 @@
             <p:fieldset legend="Czas jazdy w/poza miastem" toggleable="true" collapsed="true" toggleSpeed="500">
                 <h:outputText value="Wykres ze wszystkich wybranych tras. Łączny czas podróży wyniósł #{porownawczyBean.pieChartMiasto.godziny} h #{porownawczyBean.pieChartMiasto.minuty} min #{porownawczyBean.pieChartMiasto.sekundy} sek. Jechałeś ze
                               średnią prędkością #{porownawczyBean.pieChartMiasto.sredniaPredkosc} km/h więc udało Ci się pokonać #{porownawczyBean.pieChartMiasto.dlugoscTrasy} km" />
-                <p:pieChart value="#{porownawczyBean.pieChartMiasto.caloscPie}" legendPosition="w"/>
+                <p:pieChart value="#{porownawczyBean.pieChartMiasto.caloscPie}" legendPosition="w" showDataLabels="true"/>
                 <ui:repeat value="#{porownawczyBean.pieChartMiasto.listaPie}" var="pie">
                     <p:fieldset legend="#{pie.title}" toggleable="true" collapsed="true" toggleSpeed="500">
-                        <p:pieChart value="#{pie}" legendPosition="w"/>
+                        <p:pieChart value="#{pie}" legendPosition="w" showDataLabels="true"/>
                     </p:fieldset>
                 </ui:repeat>
+            </p:fieldset>
+            <p:fieldset legend="Stopień użycia samochodów " toggleable="true" collapsed="true" toggleSpeed="500">
+                <p:pieChart value="#{porownawczyBean.pieChartCar.pieCar}" legendPosition="w" fill="false" diameter="150" showDataLabels="true"/>
             </p:fieldset>
         </h:form>
     </ui:define>

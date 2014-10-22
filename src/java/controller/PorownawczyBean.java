@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
+import others.PieChartCar;
 import others.PieChartMiasto;
 import others.Trasa;
 
@@ -33,7 +34,7 @@ public class PorownawczyBean extends Raport{
     /**
      * Creates a new instance of PorownawczyBean
      */
-
+    private PieChartCar pieChartCar = new PieChartCar();
     private PieChartMiasto pieChartMiasto = new PieChartMiasto();
 
     public PieChartMiasto getPieChartMiasto() {
@@ -57,6 +58,7 @@ public class PorownawczyBean extends Raport{
     
     public void przygotuj(){
         pieChartMiasto = new PieChartMiasto();
+        pieChartCar = new PieChartCar();
         trasy = new ArrayList<Trasa>();
         dataKoncowa = null;
         dataPoczatkowa =  null;
@@ -101,6 +103,7 @@ public class PorownawczyBean extends Raport{
         int pozaMiastemCalosc = 0;
         long tmpTime = 0 ;
         long time = 0;
+        double tmpDlugoscOdcinka = 0.0;
         double tmpSredniaPredkosc = 0.0;
         double tmpDlugoscTrasy = 0.0;
         double sredniaPredkosc = 0.0;
@@ -128,9 +131,16 @@ public class PorownawczyBean extends Raport{
                 pieChartMiasto.getListaPie().add(tmpPie);
                 tmpTime += x.getDataKoncowa().getTime() - x.getDataPoczatkowa().getTime();
                 time += tmpTime;
-                tmpDlugoscTrasy += (tmpSredniaPredkosc) * ((double)(new Date(tmpTime).getHours()-1) + (((double)(new Date(tmpTime).getMinutes()))/60) + (((double)(new Date(tmpTime).getSeconds()))/3600));
+                tmpDlugoscOdcinka = (tmpSredniaPredkosc) * ((double)(new Date(tmpTime).getHours()-1) + (((double)(new Date(tmpTime).getMinutes()))/60) + (((double)(new Date(tmpTime).getSeconds()))/3600));
+                tmpDlugoscTrasy += tmpDlugoscOdcinka;
+                if (pieChartCar.getPieCar().getData().containsKey(x.getCar().getModel())){
+                    pieChartCar.getPieCar().getData().put(x.getCar().getModel(), pieChartCar.getPieCar().getData().get(x.getCar().getModel()).intValue()+tmpDlugoscOdcinka);
+                } else{
+                    pieChartCar.getPieCar().getData().put(x.getCar().getModel(), tmpDlugoscOdcinka);
+                }
                 tmpTime =0;
                 tmpSredniaPredkosc = 0;
+                tmpDlugoscOdcinka = 0.0;
             }catch(NoResultException e){
                 return null;
             }
@@ -149,6 +159,14 @@ public class PorownawczyBean extends Raport{
         pieChartMiasto.getCaloscPie().setTitle("Łączny czas ze wszystkich tras");
         em.close();
         return "porownawczy_2";
+    }
+
+    public PieChartCar getPieChartCar() {
+        return pieChartCar;
+    }
+
+    public void setPieChartCar(PieChartCar pieChartCar) {
+        this.pieChartCar = pieChartCar;
     }
     
 }
