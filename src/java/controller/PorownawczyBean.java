@@ -17,9 +17,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.servlet.ServletException;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
 import others.PieChartCar;
 import others.PieChartMiasto;
@@ -74,6 +71,8 @@ public class PorownawczyBean extends Raport{
             List<Car> cars = this.getListaCar();
             for (Car z: cars){
                 List<Obd2odczyt> list = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE o.data>=:datap AND o.data<=:datak AND car.vin=:vin").setParameter("datap", dataPoczatkowa).setParameter("datak", dataKoncowa).setParameter("vin", z.getVin()).getResultList();
+                if (list.isEmpty())
+                    throw new NoResultException("Brak wynikow");
                 for (Obd2odczyt x: list){
                     if (j != null){
                        long i = abs((j.getTime() - x.getData().getTime())/1000);
@@ -110,6 +109,8 @@ public class PorownawczyBean extends Raport{
         EntityManager em = DBManager.getManager().createEntityManager();
         for (Trasa x: trasy){
             try{
+                if (trasy.isEmpty())
+                    throw new NoResultException();
                 PieChartModel tmpPie =  new PieChartModel();
                 List<Obd2odczyt> list = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:datap AND o.data<=:datak").setParameter("vin", x.getCar().getVin()).setParameter("datap", x.getDataPoczatkowa()).setParameter("datak", x.getDataKoncowa()).getResultList();
                 tmpSredniaPredkosc += (Double)em.createQuery("SELECT AVG(o.predkosc) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:datap AND o.data<=:datak").setParameter("vin", x.getCar().getVin()).setParameter("datap", x.getDataPoczatkowa()).setParameter("datak", x.getDataKoncowa()).getSingleResult();
@@ -142,7 +143,8 @@ public class PorownawczyBean extends Raport{
                 tmpSredniaPredkosc = 0;
                 tmpDlugoscOdcinka = 0.0;
             }catch(NoResultException e){
-                return null;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Musisz zaznaczyć jakieś trasy!"));
+                return "porownawczy_1";
             }
             miasto =0;
             pozaMiastem= 0;

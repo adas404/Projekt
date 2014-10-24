@@ -41,4 +41,9 @@
         <managed-bean-class>controller.PorownawczyBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>wysokosciowyBean</managed-bean-name>
+        <managed-bean-class>controller.WysokosciowyBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>

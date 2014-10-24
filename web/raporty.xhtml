@@ -11,6 +11,7 @@
             <ui:include src="/menu.xhtml"/>
             <p:commandButton value="Dzienny" onclick="PF('dlg').show()" update=":dzienny"/>
             <p:commandButton value="Okresowy porównawczy" actionListener="#{porownawczyBean.przygotuj}" onclick="PF('dlg2').show()" update=":porownawczy"/>
+            <p:commandButton value="Okresowy wysokościowy" onclick="PF('dlg3').show()" update=":wysokosciowy"/>
             <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
         </h:form>
         
@@ -20,8 +21,8 @@
                 <p:panelGrid columns="2" >
                     <p:outputLabel value="Wybierz samochód oraz okres raportu:" />
                     <p:outputLabel value=" "/>
-                    <p:outputLabel value="Wybierz dzień" for="data_koncowa"/>
-                    <p:calendar id="data_koncowa" value="#{dziennyBean.data}" pattern="yyy-MM-dd "/>
+                    <p:outputLabel value="Wybierz dzień" for="data_koncowaa"/>
+                    <p:calendar id="data_koncowaa" value="#{dziennyBean.data}" pattern="yyy-MM-dd "/>
                     <p:outputLabel value="Samochod" for="samochod"/>
                     <p:selectOneMenu id="samochod" value="#{dziennyBean.car}" converter="carConverter">
                         <f:selectItems value="#{dziennyBean.listaCar}" var="car" itemValue="#{car}" itemLabel="#{car.marka} #{car.model}"/>
@@ -44,7 +45,7 @@
                     <p:outputLabel value=" "/>
                     <p:outputLabel value="Data początkowa" for="data_poczatkowa"/>
                     <p:calendar id="data_poczatkowa" value="#{porownawczyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss">
-                        <p:ajax event="dateSelect" listener="#{porownawczyBean.hadbleDateSelect}" update="data_koncowa"/>
+                        <p:ajax event="dateSelect" listener="#{porownawczyBean.hadbleDateSelect}" update=":porownawczy:data_koncowa"/>
                     </p:calendar>
                     <p:outputLabel value="Data końcowa" for="data_koncowa"/>
                     <p:calendar id="data_koncowa" value="#{porownawczyBean.dataKoncowa}" mindate="#{porownawczyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
@@ -55,8 +56,33 @@
                 <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
                     <p:graphicImage value="/images/progress_bar.gif" />
                 </p:dialog> 
-            </h:form>
-            
+            </h:form>            
+        </p:dialog>
+        
+        <p:dialog modal="false" widgetVar="dlg3" appendTo="@(body)">
+            <h:form id="wysokosciowy" >
+                <h:panelGroup >
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Wybierz zakres dat do raportu" />
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value="Data początkowa" for="data_poczatkowa2"/>
+                    <p:calendar id="data_poczatkowa2" value="#{wysokosciowyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss">
+                        <p:ajax event="dateSelect" listener="#{wysokosciowyBean.hadbleDateSelect}" update="data_koncowa2"/>
+                    </p:calendar>
+                    <p:outputLabel value="Data końcowa" for="data_koncowa2"/>
+                    <p:calendar id="data_koncowa2" value="#{wysokosciowyBean.dataKoncowa}" mindate="#{wysokosciowyBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
+                    <p:outputLabel value="Samochod" for="samochod2"/>
+                    <p:selectOneMenu id="samochod2" value="#{wysokosciowyBean.car}" converter="carConverter">
+                        <f:selectItems value="#{wysokosciowyBean.listaCar}" var="car" itemValue="#{car}" itemLabel="#{car.marka} #{car.model}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                    <p:commandButton action="#{wysokosciowyBean.generuj}"  value="Generuj" onclick="PF('statusDialog').show()" />
+                </h:panelGroup>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/progress_bar.gif" />
+                </p:dialog> 
+            </h:form>            
         </p:dialog>
     </ui:define>
 
