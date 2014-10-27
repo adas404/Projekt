@@ -11,6 +11,9 @@
             <ui:include src="/menu.xhtml"/>
         </h:form>
         <h:form>
+            <p:contextMenu>
+                <p:menuitem value="Generuj" action="#{porownawczyBean.generuj()}"/>
+            </p:contextMenu>
             <p:dataTable id="t" var="trasa" value="#{porownawczyBean.trasy}" rowKey="#{trasa.dataPoczatkowa}" selection="#{porownawczyBean.trasy}">
                 <f:facet name="header">
                     Wybierz trasy do raportu

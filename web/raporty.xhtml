@@ -12,6 +12,7 @@
             <p:commandButton value="Dzienny" onclick="PF('dlg').show()" update=":dzienny"/>
             <p:commandButton value="Okresowy porównawczy" actionListener="#{porownawczyBean.przygotuj}" onclick="PF('dlg2').show()" update=":porownawczy"/>
             <p:commandButton value="Okresowy wysokościowy" onclick="PF('dlg3').show()" update=":wysokosciowy"/>
+            <p:commandButton value="Tygodniowy" onclick="PF('dlg4').show()" update=":tygodniowy"/>
             <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
         </h:form>
         
@@ -83,6 +84,31 @@
                     <p:graphicImage value="/images/progress_bar.gif" />
                 </p:dialog> 
             </h:form>            
+        </p:dialog>
+        
+        <p:dialog modal="false" widgetVar="dlg4" appendTo="@(body)">
+            <h:form id="tygodniowy"> 
+            <h:panelGroup >
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Wybierz początkowy dzień raportu:" />
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value="Wybierz dzień" for="data_poczatkowa3"/>
+                    <p:calendar id="data_poczatkowa3" value="#{tygodniowyBean.dataPoczatkowa}" pattern="yyy-MM-dd "/>
+                    <p:outputLabel value="Samochody" for="samochody"/>
+                    <p:selectManyMenu id="samochody" value="#{tygodniowyBean.listaCar}" var="c" showCheckbox="true" converter="carConverter">
+                        <f:selectItems value="#{tygodniowyBean.listaCar}" var="car" itemLabel="#{car.marka} #{car.model}" itemValue="#{car}"/>
+                        <p:column>
+                            <h:outputText value="#{c.marka} #{c.model}"/>
+                        </p:column>
+                    </p:selectManyMenu> 
+            </p:panelGrid>
+                <p:commandButton action="#{tygodniowyBean.generuj}"  value="Generuj raport" icon="ui-icon-check" onclick="PF('statusDialog').show()" />
+            </h:panelGroup>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/progress_bar.gif" />
+                </p:dialog>               
+            </h:form>
         </p:dialog>
     </ui:define>
 

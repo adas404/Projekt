@@ -17,6 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
 import org.primefaces.model.chart.PieChartModel;
 import others.PieChartCar;
 import others.PieChartMiasto;
@@ -71,8 +72,8 @@ public class PorownawczyBean extends Raport{
             List<Car> cars = this.getListaCar();
             for (Car z: cars){
                 List<Obd2odczyt> list = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE o.data>=:datap AND o.data<=:datak AND car.vin=:vin").setParameter("datap", dataPoczatkowa).setParameter("datak", dataKoncowa).setParameter("vin", z.getVin()).getResultList();
-                if (list.isEmpty())
-                    throw new NoResultException("Brak wynikow");
+             //   if (list.isEmpty())
+              //      throw new NoResultException("Brak wynikow");
                 for (Obd2odczyt x: list){
                     if (j != null){
                        long i = abs((j.getTime() - x.getData().getTime())/1000);
@@ -149,7 +150,13 @@ public class PorownawczyBean extends Raport{
             miasto =0;
             pozaMiastem= 0;
         }
-        sredniaPredkosc /= trasy.size();
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        int typ = (Integer)session.getAttribute("typ");
+        int id =  (Integer)session.getAttribute("id");
+        if(typ==2)
+            sredniaPredkosc = (Double) em.createQuery("SELECT AVG(o.predkosc) FROM Obd2odczyt o WHERE o.data>=:datap AND o.data<=:datak").setParameter("datap", dataPoczatkowa).setParameter("datak", dataKoncowa).getSingleResult();
+        else
+            sredniaPredkosc = (Double) em.createQuery("SELECT AVG(o.predkosc) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=ANY(SELECT car.vin from Car car JOIN car.uzytkownik u where u.id=:id) AND o.data>=:datap AND o.data<=:datak").setParameter("datap", dataPoczatkowa).setParameter("datak", dataKoncowa).setParameter("id", id).getSingleResult();
         pieChartMiasto.setSredniaPredkosc(sredniaPredkosc);
         pieChartMiasto.setGodziny(new Date(time).getHours()-1);
         pieChartMiasto.setMinuty(new Date(time).getMinutes());

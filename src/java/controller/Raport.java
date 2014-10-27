@@ -56,7 +56,7 @@ public class Raport {
     public void setListaCar(List<Car> listaCar) {
         this.listaCar = listaCar;
     }
-    private List<Car> listaCar;
+    List<Car> listaCar;
     
         public Date getDataPoczatkowa() {
         return dataPoczatkowa;

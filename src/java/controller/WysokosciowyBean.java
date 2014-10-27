@@ -77,14 +77,12 @@ public class WysokosciowyBean extends Raport{
                 ChartSeries pred = new ChartSeries("Prędkość (km/h)");
                 ChartSeries obciazenieSilnika = new ChartSeries("Obciążenie silnika (%)");
                 ChartSeries wysokosc = new ChartSeries("Wysokość (m n.p.m)");
-                ChartSeries obroty = new ChartSeries("Obroty");
                 list = new ArrayList<Obd2odczyt>();
                 List<Pozycja> pozycja = em.createQuery("SELECT p FROM Pozycja p JOIN p.car car WHERE car.vin=:vin AND p.data>=:datap AND p.data<=:datak").setParameter("vin", y.getCar().getVin()).setParameter("datap", y.getDataPoczatkowa()).setParameter("datak", y.getDataKoncowa()).getResultList();
                 list = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:datap AND o.data<=:datak").setParameter("vin", y.getCar().getVin()).setParameter("datap", y.getDataPoczatkowa()).setParameter("datak", y.getDataKoncowa()).getResultList();
                 for (Obd2odczyt x:list){
                     pred.set(x.getData().getTime(), x.getPredkosc());
                     obciazenieSilnika.set(x.getData().getTime(), x.getObciazenieSilnika());
-                    obroty.set(x.getData().getTime(), x.getObroty());
                 }
                 for (Pozycja z: pozycja){
                     wysokosc.set(z.getData().getTime(), z.getWysokosc());
@@ -92,7 +90,6 @@ public class WysokosciowyBean extends Raport{
                 tmpModel.setTitle(list.get(0).getData().toString()+" - "+list.get(list.size()-1).getData().toString());
                 tmpModel.addSeries(pred);
                 tmpModel.addSeries(obciazenieSilnika);
-                tmpModel.addSeries(obroty);
                 tmpModel.addSeries(wysokosc);
                 lineChart.getListModel().add(tmpModel);
             }

@@ -46,4 +46,9 @@
         <managed-bean-class>controller.WysokosciowyBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>tygodniowyBean</managed-bean-name>
+        <managed-bean-class>controller.TygodniowyBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>
