@@ -45,9 +45,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Uzytkownik.findByNazwisko", query = "SELECT u FROM Uzytkownik u WHERE u.nazwisko = :nazwisko"),
     @NamedQuery(name = "Uzytkownik.findByDataUrodzenia", query = "SELECT u FROM Uzytkownik u WHERE u.dataUrodzenia = :dataUrodzenia")})
 public class Uzytkownik implements Serializable {
-    @Lob
-    @Column(name = "zdjecie")
-    private byte[] zdjecie;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 45)
+    @Column(name = "email", length = 45)
+    private String email;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -207,12 +208,12 @@ public class Uzytkownik implements Serializable {
         return "entity.Uzytkownik[ id=" + id + " ]";
     }
 
-    public byte[] getZdjecie() {
-        return zdjecie;
+    public String getEmail() {
+        return email;
     }
 
-    public void setZdjecie(byte[] zdjecie) {
-        this.zdjecie = zdjecie;
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

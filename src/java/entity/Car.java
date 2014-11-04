@@ -44,9 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Car.findByModel", query = "SELECT c FROM Car c WHERE c.model = :model"),
     @NamedQuery(name = "Car.findByPojemnosc", query = "SELECT c FROM Car c WHERE c.pojemnosc = :pojemnosc")})
 public class Car implements Serializable {
-    @Lob
-    @Column(name = "zdjecie")
-    private byte[] zdjecie;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -179,12 +176,5 @@ public class Car implements Serializable {
         return "entity.Car[ id=" + id + " ]";
     }
 
-    public byte[] getZdjecie() {
-        return zdjecie;
-    }
-
-    public void setZdjecie(byte[] zdjecie) {
-        this.zdjecie = zdjecie;
-    }
     
 }

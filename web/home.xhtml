@@ -28,6 +28,7 @@
                     <p:messages id="messages" showDetail="true" closable="true" />
                 </p:panelGrid>
             </p:dialog>
+
         </h:form>
          <script type="text/javascript">
             function show(){
@@ -37,6 +38,65 @@
                 PF('dlg').hide();
             }
         </script>
+    </ui:define>
+    <ui:define name="content" >
+        <h:form>
+             <p:panelGrid style="margin: 0 auto;width: 700px">
+                <p:row>
+                    <p:column colspan="2" style="text-align: justify">
+                        Witam w moim projekcie inżynierskim, którego złożeniem jest monitorowanie położenia oraz podstawowych danych eksploatacyjnych pokajazdów. 
+                        Dzięki wykorzystaniu języków Java i Python zapewniony jest duży komfort korzystania z systemu oraz jego elastyczność. Po prawej stronie
+                        znajduje się menu dzięki któremu możesz się przemieszczać między stronami, a to jego krótki opis:
+                    </p:column>
+                </p:row>
+                 <p:separator/>
+                 <p:row>
+                 <p:column>
+                 <p:graphicImage value="/images/flota.png" style="width: 100px"/>
+                 </p:column>
+                     <p:column style="text-align: justify">
+                     <h:outputText style="font-size: 16px" value="Samochód, który jest nowo dodany do systemu przez administratora posiada tylko podstawową wartość która służy do jego identyfikacji (VIN). Jeśli chcesz, własnie w 
+                              zakładce FLOTA możesz edytować dane pojazdu takie jak nazwa, model itp. Na tej stronie wyświetlane są wszystkie pojazdy przypisane do Twojego użytkownika"/>
+                </p:column>
+                </p:row>
+                 <p:row>
+                     <p:column>
+                         <p:graphicImage value="/images/wiadomosci.png" style="width: 100px"/>
+                     </p:column>
+                     <p:column style="text-align: justify">
+                         <h:outputText style="font-size: 16px" value="Jeśli chcesz skontaktować się z innym użytkownikiem naszego systemy wykorzystaj zakładkę WIADOMOŚCI, która pozwala
+                                       na wysyłanie e-mail"/>
+                     </p:column>
+                 </p:row>
+                 <p:row>
+                     <p:column>
+                         <p:graphicImage value="/images/raporty.png" style="width: 80px"/>
+                     </p:column>
+                     <p:column style="text-align: justify">
+                         <h:outputText style="font-size: 16px" value="RAPORTY - najbardziej rozbudowana część systemu. Pozwala wygenerować 4 różne typy raportów, w których zanalizowane są 
+                                       zebrane dane z pojazdu. Wykorzystane do tego jest dużo skomplikowanych obliczeń więc bądź wyrozumiały i cierpliwy ;) "/>
+                     </p:column>
+                 </p:row>
+                 <p:row>
+                     <p:column>
+                         <p:graphicImage value="/images/mapy.png" style="width: 80px"/>
+                     </p:column>
+                     <p:column style="text-align: justify">
+                         <h:outputText style="font-size: 16px" value="Nie pamiętasz gdzie i kiedy jeździłeś pół roku temu? Nic prostszego! Wejdź w zakładkę MAPY w której z wykorzystaniem 
+                                       Google Maps wyrysujemy Ci wszystkie trasy jakie przebyłeś. Po naciśnięciu na marker startu (zielony) lub końca(czerowny) trasy pojawi się okno informacyjne. 
+                                       "/>
+                     </p:column>
+                 </p:row>
+                 <p:row>
+                     <p:column>
+                         <p:graphicImage value="/images/wyloguj.png" style="width: 80px"/>
+                     </p:column>
+                     <p:column style="text-align: justify">
+                         <h:outputText style="font-size: 16px" value="Jak sama nazwa wskazuje, przycisk służy do zamknięcia sesji użytkownika."/>
+                     </p:column>
+                 </p:row>
+            </p:panelGrid>
+        </h:form>
     </ui:define>
     
 </ui:composition>

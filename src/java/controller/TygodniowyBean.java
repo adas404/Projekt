@@ -30,14 +30,26 @@ public class TygodniowyBean extends Raport{
      */
     public TygodniowyBean() {
     }
+
+    public List<Tygodniowy> getListaDni() {
+        return listaDni;
+    }
+
+    public void setListaDni(List<Tygodniowy> listaDni) {
+        this.listaDni = listaDni;
+    }
     private List<Tygodniowy> listaDni = new ArrayList<Tygodniowy>();
+    public void przygotuj(){
+        this.dataKoncowa = null;
+        this.dataPoczatkowa = null;
+        listaDni = new ArrayList<Tygodniowy>();
+    }
     public String generuj(){
         Date j = new Date();
         Date tmp = new Date();
         Car tmpcar = new Car();
         tmp =  null;
         List<Obd2odczyt> list = new ArrayList<Obd2odczyt>();
-        int tymczasowy = 0;
         HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         int typ = (Integer)session.getAttribute("typ");
         int id =  (Integer)session.getAttribute("id");
@@ -119,23 +131,25 @@ public class TygodniowyBean extends Raport{
                 if(!dzien.getTrasy().isEmpty())//tu poprawić błąd bo nie dodaje dni w których jest tylko jedna trasa!
                     dzien.getTrasy().add(new Trasa(tmpcar,tmp,j));
                 dzien.setData(new Date(tmpdate - 86400000));
+                dzien.setIloscTras(dzien.getTrasy().size());
                 listaDni.add(dzien);                
                 list.clear();
             }
             for(Tygodniowy g: listaDni){
                     long tmptime = 0;
                     for (Trasa h: g.getTrasy()){
-                        tmptime =+ h.getDataKoncowa().getTime()-h.getDataPoczatkowa().getTime();
+                        tmptime += h.getDataKoncowa().getTime()-h.getDataPoczatkowa().getTime();
+ //                       System.out.println("Wynik odejmowania:"+(h.getDataKoncowa().getTime()-h.getDataPoczatkowa().getTime())+"i tmptime "+tmptime);
                     }
                     g.setCzasJazdy(new Date(tmptime));
                     g.setIloscKilometrow((g.getSredniaPredkosc()) * ((double)(new Date(tmptime).getHours()-1) + (((double)(new Date(tmptime).getMinutes()))/60) + (((double)(new Date(tmptime).getSeconds()))/3600)));
-                    System.out.println("Czas jazdy wynosi:"+g.getCzasJazdy()+" a ilość przejechanych km: "+g.getIloscKilometrow());
+           //         System.out.println("Czas jazdy wynosi:"+g.getCzasJazdy()+" a ilość przejechanych km: "+g.getIloscKilometrow());
             }
          em.close();
         }catch(NoResultException e){
             return null;
         }    
-    return null;
+    return "tygodniowy";
     }
     
 }

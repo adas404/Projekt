@@ -31,7 +31,6 @@ public class UzytkownikBean {
         EntityManager em = DBManager.getManager().createEntityManager();
         listaUzytkownik = em.createNamedQuery("Uzytkownik.findAll").getResultList();
         em.close();
-        System.out.println(listaUzytkownik);
         return listaUzytkownik;
     }
 

@@ -5,6 +5,7 @@
  */
 package others;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,21 @@ public class Tygodniowy {
  private double iloscKilometrow;
  private List<Trasa> trasy = new ArrayList<Trasa>();
  private Date data;
+
+    public int getIloscTras() {
+        return iloscTras;
+    }
+
+    public void setIloscTras(int iloscTras) {
+        this.iloscTras = iloscTras;
+    }
+ private int iloscTras;
+ 
+ @Override
+    public String toString(){
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyy");
+        return format.format(data);
+    }
 
     public Date getData() {
         return data;

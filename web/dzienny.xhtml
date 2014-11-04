@@ -40,7 +40,7 @@
                 </p:panelGrid>
             </p:fieldset>
             <p:fieldset legend="Szegółowe odczyty" toggleable="true" collapsed="true">
-                <p:dataTable var="odczyt" value="#{dziennyBean.odczyt}" >
+                <p:dataTable id="szczegolowe" var="odczyt" value="#{dziennyBean.odczyt}" >
                     <p:column headerText="Data odczytu">
                         <h:outputText value="#{odczyt.data}"/>
                     </p:column>

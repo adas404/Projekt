@@ -26,9 +26,6 @@
             <p:column headerText="Pojemność silnika">
                 <h:outputText value="#{car.pojemnosc}"/>
             </p:column>
-            <p:column headerText="Zdjęcie">
-                <h:outputText value="#{car.zdjecie}"/>
-            </p:column>
             <p:column headerText="Użytkownik">
                 <h:outputText value="#{car.uzytkownik.imie}"/>
                 <h:outputText value=" "/>
@@ -117,8 +114,8 @@
             <p:column headerText="Login">
                 <h:outputText value="#{uzytkownik.login}"/>
             </p:column>
-            <p:column headerText="Zdjęcie">
-                <h:outputText value="#{uzytkownik.zdjecie}"/>
+            <p:column headerText="E-mail">
+                <h:outputText value="#{uzytkownik.email}"/>
             </p:column>
             <p:column headerText="Typ">
                 <h:outputText value="#{uzytkownik.typ}"/>
@@ -144,6 +141,8 @@
                     <p:password id="haslo" value="#{uzytkownikBean.uzytkownik.haslo}" feedback="true" promptLabel="Wpisz hasło" weakLabel="Słabe" goodLabel="Średnie" strongLabel="Mocne!"/>
                     <p:outputLabel value="Data urodzenia" for="data"/>
                     <p:calendar id="data" value="#{uzytkownikBean.uzytkownik.dataUrodzenia}" pattern="yyy-MM-dd" mindate="1920-12-15" maxdate="2000-12-15" navigator="true" />
+                    <p:outputLabel value="E-mail" for="email"/>
+                    <p:inputText id="email" value="#{uzytkownikBean.uzytkownik.email}"/>
                     <p:outputLabel value="Typ użytkownika" for="typ"/>
                     <p:selectOneMenu id="typ" value="#{uzytkownikBean.uzytkownik.typ}">
                         <f:selectItem itemLabel="Normalny" itemValue="1"/>
@@ -173,6 +172,8 @@
                     <p:password id="haslo4" value="#{uzytkownikBean.uzytkownik.haslo}" feedback="true" promptLabel="Wpisz hasło" weakLabel="Słabe" goodLabel="Średnie" strongLabel="Mocne!"/>
                     <p:outputLabel value="Data urodzenia" for="data4"/>
                     <p:calendar id="data4" value="#{uzytkownikBean.uzytkownik.dataUrodzenia}" pattern="yyy-MM-dd" mindate="1920-12-15" maxdate="2000-12-15" />
+                    <p:outputLabel value="E-mail" for="email2"/>
+                    <p:inputText id="email2" value="#{uzytkownikBean.uzytkownik.email}"/>
                     <p:outputLabel value="Typ użytkownika" for="typ4"/>
                     <p:selectOneMenu id="typ4" value="#{uzytkownikBean.uzytkownik.typ}">
                         <f:selectItem itemLabel="Normalny" itemValue="1"/>

@@ -8,11 +8,51 @@
 
     <ui:define name="content">
         <h:form style="text-align: center">
+            <p:panelGrid style="margin: 0 auto;width: 700px">
+                <p:row>
+                    <p:column colspan="2" style="text-align: justify">
+                        Poniżej opis poszczególnych raportów:
+                    </p:column>
+                </p:row>
+                 <p:separator/>
+                 <p:row>
+                     <p:column style="text-align: center">
+                 <p:commandButton value="Dzienny" onclick="PF('dlg').show()" update=":dzienny"/>
+                 </p:column>
+                     <p:column style="text-align: justify">
+                     <h:outputText style="font-size: 16px" value="W danym raporcie zaprezentowane zostaną m.in. wszystkie dane w postaci interaktywnego wykresu (można przybliżać zaznaczony fragment,
+                                   wyłączać poszczególne linie przez legendę po prawej stronie), tabeli oraz średnie wartości dla dnia. Aby wygenerować wykres należy podać interesujący 
+                                   nas dzień oraz samochód."/>
+                </p:column>
+                </p:row>
+                 <p:row>
+                     <p:column>
+                         <p:commandButton value="Okresowy porównawczy" actionListener="#{porownawczyBean.przygotuj}" onclick="PF('dlg2').show()" update=":porownawczy"/>
+                     </p:column>
+                     <p:column style="text-align: justify">
+                         <h:outputText style="font-size: 16px" value="Raport generowany jest dla wszystkich samochodów użytkownika. Przedstawia procentowy udział w ruchu miejskim / poza miejskim
+                                       oraz procentowo czas jazdy poszczególnymi samochodami. Należy wprowadzić okres który chcemy poddać analizie."/>
+                     </p:column>
+                 </p:row>
+                 <p:row>
+                     <p:column>
+                         <p:commandButton value="Okresowy wysokościowy" onclick="PF('dlg3').show()" update=":wysokosciowy"/>
+                     </p:column>
+                     <p:column style="text-align: justify">
+                         <h:outputText style="font-size: 16px" value="W tym raporcie przedstawione na wykresie są zależności wysokości na jakiej znajduje się pojazd / prędkości oraz obciążenia
+                                       silnika."/>
+                     </p:column>
+                 </p:row>
+                 <p:row>
+                     <p:column style="text-align: center">
+                         <p:commandButton value="Tygodniowy" onclick="PF('dlg4').show()" actionListener="#{tygodniowyBean.przygotuj}" update=":tygodniowy"/>
+                     </p:column>
+                     <p:column style="text-align: justify">
+                         <h:outputText style="font-size: 16px" value="Raport podsumowujący tydzień z podziałem na dni. Należy wybrać pierwszy dzień tygodnia który nas interesuje."/>
+                     </p:column>
+                 </p:row>
+            </p:panelGrid>
             <ui:include src="/menu.xhtml"/>
-            <p:commandButton value="Dzienny" onclick="PF('dlg').show()" update=":dzienny"/>
-            <p:commandButton value="Okresowy porównawczy" actionListener="#{porownawczyBean.przygotuj}" onclick="PF('dlg2').show()" update=":porownawczy"/>
-            <p:commandButton value="Okresowy wysokościowy" onclick="PF('dlg3').show()" update=":wysokosciowy"/>
-            <p:commandButton value="Tygodniowy" onclick="PF('dlg4').show()" update=":tygodniowy"/>
             <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
         </h:form>
         

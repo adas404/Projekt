@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./szablon.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form>
+            <ui:include src="/menu.xhtml"/>
+        </h:form>
+        <h:form>
+            <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
+            <p:fieldset legend="Tabele" toggleable="true" toggleSpeed="500" collapsed="false">
+                <p:dataTable id="srednie" var="dzien" value="#{tygodniowyBean.listaDni}">
+                    <f:facet name="header">
+                        Zestawienie wartości średnich
+                        <p:commandButton value="PDF" ajax="false">
+                            <p:dataExporter type="pdf" target="srednie" fileName="srednieodczyty"/>
+                        </p:commandButton>
+                        <p:commandButton value="XLS" ajax="false">
+                            <p:dataExporter type="xls" target="srednie" fileName="srednieodczyty"/>
+                        </p:commandButton>
+                    </f:facet>
+                    <p:column headerText="Data">
+                        <h:outputText value="#{dzien.toString()}"/>
+                    </p:column>
+                    <p:column headerText="Prędkość (km/h)">
+                        <h:outputText value="#{dzien.sredniaPredkosc}"/>
+                    </p:column>
+                    <p:column headerText="Obroty (RPM)">
+                        <h:outputText value="#{dzien.srednieObroty}"/>
+                    </p:column>
+                    <p:column headerText="Obciążenie silnika (%)">
+                        <h:outputText value="#{dzien.srednieObciazenieSilnika}"/>
+                    </p:column>
+                    <p:column headerText="Położenie przepustnicy (%)">
+                        <h:outputText value="#{dzien.sredniePolozeniePrzepustnicy}"/>
+                    </p:column>
+                    <p:column headerText="Temperatura dolotu (C)">
+                        <h:outputText value="#{dzien.sredniatemDolotu}"/>
+                    </p:column>
+                    <p:column headerText="Temperatura płynu chłodzącego (C)">
+                        <h:outputText value="#{dzien.sredniaTempChlodzacego}"/>
+                    </p:column>
+                    <p:column headerText="(Ciśnienie kolektora (kPa)">
+                        <h:outputText value="#{dzien.srednieCisnienieKolektora}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="maksymalne" var="dzien" value="#{tygodniowyBean.listaDni}">
+                    <f:facet name="header">
+                        Zestawienie wartości maksymalnych 
+                        <p:commandButton value="PDF" ajax="false">
+                            <p:dataExporter type="pdf" target="maksymalne" fileName="maksymalneodczyty"/>
+                        </p:commandButton>
+                        <p:commandButton value="XLS" ajax="false">
+                            <p:dataExporter type="xls" target="maksymalne" fileName="maksymalneodczyty"/>
+                        </p:commandButton>
+                    </f:facet>
+                    <p:column headerText="Data">
+                        <h:outputText value="#{dzien.toString()}"/>
+                    </p:column>
+                    <p:column headerText="Prędkość (km/h)">
+                        <h:outputText value="#{dzien.maksymalnaPredkosc}"/>
+                    </p:column>
+                    <p:column headerText="Obroty (RPM)">
+                        <h:outputText value="#{dzien.maksymalneObroty}"/>
+                    </p:column>
+                    <p:column headerText="Obciążenie silnika (%)">
+                        <h:outputText value="#{dzien.maksymalneObciazenieSilnika}"/>
+                    </p:column>
+                    <p:column headerText="Położenie przepustnicy (%)">
+                        <h:outputText value="#{dzien.maksymalnePolozeniePrzepustnicy}"/>
+                    </p:column>
+                    <p:column headerText="Temperatura dolotu (C)">
+                        <h:outputText value="#{dzien.maksymalnaTempDolotu}"/>
+                    </p:column>
+                    <p:column headerText="Temperatura płynu chłodzącego (C)">
+                        <h:outputText value="#{dzien.maksymalnaTempChlodzacego}"/>
+                    </p:column>
+                    <p:column headerText="(Ciśnienie kolektora (kPa)">
+                        <h:outputText value="#{dzien.maksymalneCisnienieKolektora}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="minimalne" var="dzien" value="#{tygodniowyBean.listaDni}">
+                    <f:facet name="header">
+                        Zestawienie wartości minimalnych
+                        <p:commandButton value="PDF" ajax="false">
+                            <p:dataExporter type="pdf" target="minimalne" fileName="minimalneodczyty"/>
+                        </p:commandButton>
+                        <p:commandButton value="XLS" ajax="false">
+                            <p:dataExporter type="xls" target="minimalne" fileName="minimalneodczyty"/>
+                        </p:commandButton>
+                    </f:facet>
+                    <p:column headerText="Data">
+                        <h:outputText value="#{dzien.toString()}"/>
+                    </p:column>
+                    <p:column headerText="Prędkość (km/h)">
+                        <h:outputText value="#{dzien.minimalnaPredkosc}"/>
+                    </p:column>
+                    <p:column headerText="Obroty (RPM)">
+                        <h:outputText value="#{dzien.minimalneObroty}"/>
+                    </p:column>
+                    <p:column headerText="Obciążenie silnika (%)">
+                        <h:outputText value="#{dzien.minimalneObciazenieSilnika}"/>
+                    </p:column>
+                    <p:column headerText="Położenie przepustnicy (%)">
+                        <h:outputText value="#{dzien.minimalnePolozeniePrzepustnicy}"/>
+                    </p:column>
+                    <p:column headerText="Temperatura dolotu (C)">
+                        <h:outputText value="#{dzien.minimalnaTempDolotu}"/>
+                    </p:column>
+                    <p:column headerText="Temperatura płynu chłodzącego (C)">
+                        <h:outputText value="#{dzien.minimalnaTempChlodzacego}"/>
+                    </p:column>
+                    <p:column headerText="(Ciśnienie kolektora (kPa)">
+                        <h:outputText value="#{dzien.minimalneCisnienieKolektora}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="kilos" var="dzien" value="#{tygodniowyBean.listaDni}">
+                    <f:facet name="header">
+                        Zestawienie czasu jazdy i przejechanych kilometrów
+                        <p:commandButton value="PDF" ajax="false">
+                            <p:dataExporter type="pdf" target="kilos" fileName="kilometry"/>
+                        </p:commandButton>
+                        <p:commandButton value="XLS" ajax="false">
+                            <p:dataExporter type="xls" target="kilos" fileName="kilometry"/>
+                        </p:commandButton>
+                    </f:facet>
+                    <p:column headerText="Data">
+                        <h:outputText value="#{dzien.toString()}"/>
+                    </p:column>
+                    <p:column headerText="Przejechane kilometry">
+                        <h:outputText value="#{dzien.iloscKilometrow}"/>
+                    </p:column>
+                    <p:column headerText="Czas jazdy">
+                        <h:outputText value="#{dzien.czasJazdy.hours - 1} h #{dzien.czasJazdy.minutes} min #{dzien.czasJazdy.seconds} s"/>
+                    </p:column>
+                    <p:column headerText="Ilość tras">
+                        <h:outputText value="#{dzien.iloscTras}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+ </ui:define>
+</ui:composition>
