@@ -205,7 +205,7 @@ public class Uzytkownik implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Uzytkownik[ id=" + id + " ]";
+        return this.getImie() +" "+ this.getNazwisko();
     }
 
     public String getEmail() {
@@ -216,4 +216,4 @@ public class Uzytkownik implements Serializable {
         this.email = email;
     }
     
-}
+   }

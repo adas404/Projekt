@@ -8,6 +8,7 @@ package controller;
 
 import config.DBManager;
 import entity.Uzytkownik;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -37,7 +38,7 @@ public class UzytkownikBean {
     public void setListaUzytkownik(List<Uzytkownik> listaUzytkownik) {
         this.listaUzytkownik = listaUzytkownik;
     }
-    private List<Uzytkownik> listaUzytkownik;
+    private List<Uzytkownik> listaUzytkownik = new ArrayList<Uzytkownik>();
     /**
      * Creates a new instance of CarBean
      */
