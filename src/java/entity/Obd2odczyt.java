@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,16 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "obd2odczyt")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Obd2odczyt.findAll", query = "SELECT o FROM Obd2odczyt o"),
-    @NamedQuery(name = "Obd2odczyt.findById", query = "SELECT o FROM Obd2odczyt o WHERE o.id = :id"),
-    @NamedQuery(name = "Obd2odczyt.findByObciazenieSilnika", query = "SELECT o FROM Obd2odczyt o WHERE o.obciazenieSilnika = :obciazenieSilnika"),
-    @NamedQuery(name = "Obd2odczyt.findByTempChlodzacego", query = "SELECT o FROM Obd2odczyt o WHERE o.tempChlodzacego = :tempChlodzacego"),
-    @NamedQuery(name = "Obd2odczyt.findByCisnienieKolektora", query = "SELECT o FROM Obd2odczyt o WHERE o.cisnienieKolektora = :cisnienieKolektora"),
-    @NamedQuery(name = "Obd2odczyt.findByObroty", query = "SELECT o FROM Obd2odczyt o WHERE o.obroty = :obroty"),
-    @NamedQuery(name = "Obd2odczyt.findByPredkosc", query = "SELECT o FROM Obd2odczyt o WHERE o.predkosc = :predkosc"),
-    @NamedQuery(name = "Obd2odczyt.findByTempDolotu", query = "SELECT o FROM Obd2odczyt o WHERE o.tempDolotu = :tempDolotu"),
-    @NamedQuery(name = "Obd2odczyt.findByPolozeniePrzepustnicy", query = "SELECT o FROM Obd2odczyt o WHERE o.polozeniePrzepustnicy = :polozeniePrzepustnicy"),
-    @NamedQuery(name = "Obd2odczyt.findByData", query = "SELECT o FROM Obd2odczyt o WHERE o.data = :data")})
+    @NamedQuery(name = "Obd2odczyt.findAll", query = "SELECT o FROM Obd2odczyt o")})
 public class Obd2odczyt implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -82,7 +71,7 @@ public class Obd2odczyt implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
     @JoinColumn(name = "car_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Car car;
 
     public Obd2odczyt() {

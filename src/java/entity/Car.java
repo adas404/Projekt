@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
@@ -11,12 +10,10 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,12 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @UniqueConstraint(columnNames = {"VIN"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Car.findAll", query = "SELECT c FROM Car c"),
-    @NamedQuery(name = "Car.findById", query = "SELECT c FROM Car c WHERE c.id = :id"),
-    @NamedQuery(name = "Car.findByVin", query = "SELECT c FROM Car c WHERE c.vin = :vin"),
-    @NamedQuery(name = "Car.findByMarka", query = "SELECT c FROM Car c WHERE c.marka = :marka"),
-    @NamedQuery(name = "Car.findByModel", query = "SELECT c FROM Car c WHERE c.model = :model"),
-    @NamedQuery(name = "Car.findByPojemnosc", query = "SELECT c FROM Car c WHERE c.pojemnosc = :pojemnosc")})
+    @NamedQuery(name = "Car.findAll", query = "SELECT c FROM Car c")})
 public class Car implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,11 +57,11 @@ public class Car implements Serializable {
     @Column(name = "pojemnosc", precision = 22)
     private Double pojemnosc;
     @JoinColumn(name = "id_uzytkownik", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Uzytkownik uzytkownik;
-    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "car")
     private Set<Pozycja> pozycjaSet;
-    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "car")
     private Set<Obd2odczyt> obd2odczytSet;
 
     public Car() {
@@ -124,7 +116,6 @@ public class Car implements Serializable {
         this.pojemnosc = pojemnosc;
     }
 
-
     public Uzytkownik getUzytkownik() {
         return uzytkownik;
     }
@@ -175,6 +166,5 @@ public class Car implements Serializable {
     public String toString() {
         return "entity.Car[ id=" + id + " ]";
     }
-
     
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,14 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "pozycja")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pozycja.findAll", query = "SELECT p FROM Pozycja p"),
-    @NamedQuery(name = "Pozycja.findByIdpozycja", query = "SELECT p FROM Pozycja p WHERE p.idpozycja = :idpozycja"),
-    @NamedQuery(name = "Pozycja.findByLat", query = "SELECT p FROM Pozycja p WHERE p.lat = :lat"),
-    @NamedQuery(name = "Pozycja.findByLng", query = "SELECT p FROM Pozycja p WHERE p.lng = :lng"),
-    @NamedQuery(name = "Pozycja.findByWysokosc", query = "SELECT p FROM Pozycja p WHERE p.wysokosc = :wysokosc"),
-    @NamedQuery(name = "Pozycja.findByNsind", query = "SELECT p FROM Pozycja p WHERE p.nsind = :nsind"),
-    @NamedQuery(name = "Pozycja.findByEwind", query = "SELECT p FROM Pozycja p WHERE p.ewind = :ewind"),
-    @NamedQuery(name = "Pozycja.findByData", query = "SELECT p FROM Pozycja p WHERE p.data = :data")})
+    @NamedQuery(name = "Pozycja.findAll", query = "SELECT p FROM Pozycja p")})
 public class Pozycja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,7 +65,7 @@ public class Pozycja implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
     @JoinColumn(name = "car_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Car car;
 
     public Pozycja() {

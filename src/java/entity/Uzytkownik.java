@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
@@ -12,11 +11,9 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -36,19 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "uzytkownik")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Uzytkownik.findAll", query = "SELECT u FROM Uzytkownik u"),
-    @NamedQuery(name = "Uzytkownik.findById", query = "SELECT u FROM Uzytkownik u WHERE u.id = :id"),
-    @NamedQuery(name = "Uzytkownik.findByLogin", query = "SELECT u FROM Uzytkownik u WHERE u.login = :login"),
-    @NamedQuery(name = "Uzytkownik.findByHaslo", query = "SELECT u FROM Uzytkownik u WHERE u.haslo = :haslo"),
-    @NamedQuery(name = "Uzytkownik.findByTyp", query = "SELECT u FROM Uzytkownik u WHERE u.typ = :typ"),
-    @NamedQuery(name = "Uzytkownik.findByImie", query = "SELECT u FROM Uzytkownik u WHERE u.imie = :imie"),
-    @NamedQuery(name = "Uzytkownik.findByNazwisko", query = "SELECT u FROM Uzytkownik u WHERE u.nazwisko = :nazwisko"),
-    @NamedQuery(name = "Uzytkownik.findByDataUrodzenia", query = "SELECT u FROM Uzytkownik u WHERE u.dataUrodzenia = :dataUrodzenia")})
+    @NamedQuery(name = "Uzytkownik.findAll", query = "SELECT u FROM Uzytkownik u")})
 public class Uzytkownik implements Serializable {
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 45)
-    @Column(name = "email", length = 45)
-    private String email;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,12 +64,14 @@ public class Uzytkownik implements Serializable {
     @Column(name = "data_urodzenia")
     @Temporal(TemporalType.DATE)
     private Date dataUrodzenia;
-    @OneToMany(mappedBy = "uzytkownik", fetch = FetchType.LAZY)
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 45)
+    @Column(name = "email", length = 45)
+    private String email;
+    @OneToMany(mappedBy = "uzytkownik")
     private Set<Car> carSet;
-    @OneToMany(mappedBy = "uzytkownik", fetch = FetchType.LAZY)
-    private Set<Wiadomosc> wiadomoscSet;
-    @OneToMany(mappedBy = "uzytkownik1", fetch = FetchType.LAZY)
-    private Set<Wiadomosc> wiadomoscSet1;
+    @OneToMany(mappedBy = "uzytkownik")
+    private Set<Log> logSet;
 
     public Uzytkownik() {
     }
@@ -147,13 +135,20 @@ public class Uzytkownik implements Serializable {
         this.nazwisko = nazwisko;
     }
 
-
     public Date getDataUrodzenia() {
         return dataUrodzenia;
     }
 
     public void setDataUrodzenia(Date dataUrodzenia) {
         this.dataUrodzenia = dataUrodzenia;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @XmlTransient
@@ -166,21 +161,12 @@ public class Uzytkownik implements Serializable {
     }
 
     @XmlTransient
-    public Set<Wiadomosc> getWiadomoscSet() {
-        return wiadomoscSet;
+    public Set<Log> getLogSet() {
+        return logSet;
     }
 
-    public void setWiadomoscSet(Set<Wiadomosc> wiadomoscSet) {
-        this.wiadomoscSet = wiadomoscSet;
-    }
-
-    @XmlTransient
-    public Set<Wiadomosc> getWiadomoscSet1() {
-        return wiadomoscSet1;
-    }
-
-    public void setWiadomoscSet1(Set<Wiadomosc> wiadomoscSet1) {
-        this.wiadomoscSet1 = wiadomoscSet1;
+    public void setLogSet(Set<Log> logSet) {
+        this.logSet = logSet;
     }
 
     @Override
@@ -205,15 +191,7 @@ public class Uzytkownik implements Serializable {
 
     @Override
     public String toString() {
-        return this.getImie() +" "+ this.getNazwisko();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        return "entity.Uzytkownik[ id=" + id + " ]";
     }
     
-   }
+}
