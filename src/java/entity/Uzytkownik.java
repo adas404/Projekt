@@ -78,7 +78,7 @@ public class Uzytkownik implements Serializable {
     @Column(name = "data_urodzenia")
     @Temporal(TemporalType.DATE)
     private Date dataUrodzenia;
-    @OneToMany(mappedBy = "uzytkownik", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "uzytkownik", fetch = FetchType.LAZY)
     private Set<Car> carSet;
     @OneToMany(mappedBy = "uzytkownik", fetch = FetchType.LAZY)
     private Set<Wiadomosc> wiadomoscSet;
