@@ -191,7 +191,7 @@ public class Uzytkownik implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Uzytkownik[ id=" + id + " ]";
+        return this.getImie() + " "+ this.getNazwisko()+" <"+this.getEmail()+">";
     }
     
 }
