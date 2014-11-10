@@ -9,6 +9,7 @@ package controller;
 import config.DBManager;
 import entity.Car;
 import entity.Obd2odczyt;
+import entity.Uzytkownik;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -152,6 +153,9 @@ public class DziennyBean extends Raport {
             sredniePolozeniePrzepustnicy = (Double)em.createQuery("SELECT AVG(o.polozeniePrzepustnicy) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:data AND o.data<:dt").setParameter("vin", this.car.getVin()).setParameter("data", this.data).setParameter("dt", new Date(tmpdate)).getSingleResult();
             predkosciomierz = new MeterGaugeChartModel(sredniaPredkosc, new ArrayList<Number>(){{add(20);add(50);add(120);add(220);}});
             obrotomierz = new MeterGaugeChartModel(srednieObroty, new ArrayList<Number>(){{add(1000);add(2500);add(5000);add(7000);}});
+            HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            String notatka = "Wygenerowano raport dzienny z dnia" + this.dataPoczatkowa;
+            this.log(4, notatka, em.find(Uzytkownik.class, session.getAttribute("id")));            
             em.close();
         }catch(NoResultException | ArrayIndexOutOfBoundsException | NullPointerException e){
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));

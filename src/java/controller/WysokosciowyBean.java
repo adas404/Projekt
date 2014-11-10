@@ -9,6 +9,7 @@ import config.DBManager;
 import entity.Car;
 import entity.Obd2odczyt;
 import entity.Pozycja;
+import entity.Uzytkownik;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
 import javax.transaction.xa.XAResource;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
@@ -93,6 +95,9 @@ public class WysokosciowyBean extends Raport{
                 tmpModel.addSeries(wysokosc);
                 lineChart.getListModel().add(tmpModel);
             }
+            HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            this.log(4, "Wygenerowano raport wysokościowy" , em.find(Uzytkownik.class, session.getAttribute("id")));
+            em.close();
         }catch(NoResultException | ArrayIndexOutOfBoundsException | NullPointerException | FacesException e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Przykro nam!", "Nie znaleźliśmy przebytych tras w podanym terminie!"));
             return null;

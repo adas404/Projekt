@@ -8,6 +8,7 @@ package controller;
 import config.DBManager;
 import entity.Car;
 import entity.Obd2odczyt;
+import entity.Uzytkownik;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Date;
@@ -166,6 +167,8 @@ public class PorownawczyBean extends Raport{
         pieChartMiasto.getCaloscPie().set("Miasto", miastoCalosc);
         pieChartMiasto.getCaloscPie().set("Poza miastem", pozaMiastemCalosc);
         pieChartMiasto.getCaloscPie().setTitle("Łączny czas ze wszystkich tras");
+        String notatka = "Wygenerowano raport porównawczy";
+        this.log(4, notatka , em.find(Uzytkownik.class, session.getAttribute("id")));
         em.close();
         return "porownawczy_2";
     }

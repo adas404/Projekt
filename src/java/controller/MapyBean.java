@@ -8,7 +8,9 @@ package controller;
 
 import config.DBManager;
 import entity.Car;
+import entity.Log;
 import entity.Pozycja;
+import entity.Uzytkownik;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
@@ -22,6 +24,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
@@ -110,6 +113,9 @@ public class MapyBean extends Raport {
             }
 
             center = list.get(0).getLat()+","+list.get(0).getLng();
+            HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            String notatka = "Wygenerowano mapę z okresu "+this.dataPoczatkowa+" do "+this.dataKoncowa+" dla samochodu: "+this.car.getMarka()+" "+this.car.getModel();
+            this.log(3, notatka , em.find(Uzytkownik.class, session.getAttribute("id")));
             em.close();
         }   catch(NoResultException e){
                 return null;

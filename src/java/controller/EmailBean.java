@@ -7,11 +7,15 @@ package controller;
 
 import config.DBManager;
 import config.UstawieniaMaila;
+import entity.Log;
 import entity.Uzytkownik;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -41,6 +45,17 @@ public class EmailBean {
         
     public void wyslij(){
         mail.wyslijMail(uzytkownik.getEmail(), temat, body);
+        EntityManager em = DBManager.getManager().createEntityManager();
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        em.getTransaction().begin();
+        Log log = new Log();
+        log.setTyp(5);
+        log.setData(new Date());
+        log.setNotatka("Wysłano email do "+this.uzytkownik.getImie()+" "+this.uzytkownik.getNazwisko()+" o temacie "+temat);
+        log.setUzytkownik(em.find(Uzytkownik.class, session.getAttribute("id")));
+        em.persist(log);
+        em.getTransaction().commit();
+        em.close();
     }
 
     public List<Uzytkownik> completeUzytkownik(String query){

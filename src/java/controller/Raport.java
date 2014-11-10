@@ -7,6 +7,8 @@ package controller;
 
 import config.DBManager;
 import entity.Car;
+import entity.Log;
+import entity.Uzytkownik;
 import java.util.Date;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -78,5 +80,17 @@ public class Raport {
     public void hadbleDateSelect(SelectEvent event){
         Date date = (Date) event.getObject();
         this.dataPoczatkowa = date;
+    }
+    public void log(int typ,String notatka, Uzytkownik uzytkownik){
+        EntityManager em = DBManager.getManager().createEntityManager();
+        em.getTransaction().begin();
+        Log log = new Log();
+        log.setTyp(typ);
+        log.setData(new Date());
+        log.setUzytkownik(uzytkownik);
+        log.setNotatka(notatka);
+        em.persist(log);
+        em.getTransaction().commit();
+        em.close();
     }
 }

@@ -8,6 +8,7 @@ package controller;
 import config.DBManager;
 import entity.Car;
 import entity.Obd2odczyt;
+import entity.Uzytkownik;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Date;
@@ -145,7 +146,9 @@ public class TygodniowyBean extends Raport{
                     g.setIloscKilometrow((g.getSredniaPredkosc()) * ((double)(new Date(tmptime).getHours()-1) + (((double)(new Date(tmptime).getMinutes()))/60) + (((double)(new Date(tmptime).getSeconds()))/3600)));
            //         System.out.println("Czas jazdy wynosi:"+g.getCzasJazdy()+" a ilość przejechanych km: "+g.getIloscKilometrow());
             }
+            this.log(4, "Wygenerowano raport tygodniowy" , em.find(Uzytkownik.class, session.getAttribute("id")));
          em.close();
+         
         }catch(NoResultException e){
             return null;
         }    
