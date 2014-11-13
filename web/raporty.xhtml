@@ -165,12 +165,12 @@
                 <p:panelGrid columns="2" >
                     <p:outputLabel value="Wybierz zakres dat do raportu" />
                     <p:outputLabel value=" "/>
-                    <p:outputLabel value="Data początkowa" for="data_poczatkowa"/>
-                    <p:calendar id="data_poczatkowa" value="#{logowBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss">
+                    <p:outputLabel value="Data początkowa" for="data_poczatkowa444"/>
+                    <p:calendar id="data_poczatkowa444" value="#{logowBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss">
                         <p:ajax event="dateSelect" listener="#{logowBean.hadbleDateSelect}" update=":porownawczy:data_koncowa"/>
                     </p:calendar>
-                    <p:outputLabel value="Data końcowa" for="data_koncowa"/>
-                    <p:calendar id="data_koncowa" value="#{logowBean.dataKoncowa}" mindate="#{logowBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
+                    <p:outputLabel value="Data końcowa" for="data_koncowa444"/>
+                    <p:calendar id="data_koncowa444" value="#{logowBean.dataKoncowa}" mindate="#{logowBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
                 </p:panelGrid>
                     <p:commandButton action="#{logowBean.generuj}"  value="Generuj" onclick="PF('statusDialog').show()" />
                 </h:panelGroup>

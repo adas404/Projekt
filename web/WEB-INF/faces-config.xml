@@ -56,4 +56,9 @@
         <managed-bean-class>controller.EmailBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>logowBean</managed-bean-name>
+        <managed-bean-class>controller.LogowBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>
