@@ -51,6 +51,14 @@
                          <h:outputText style="font-size: 16px" value="Raport podsumowujący tydzień z podziałem na dni. Należy wybrać pierwszy dzień tygodnia który nas interesuje."/>
                      </p:column>
                  </p:row>
+                 <p:row rendered="#{typ == 2}">
+                     <p:column style="text-align: center">
+                         <p:commandButton value="Raport logów" rendered="#{typ == 2}" onclick="PF('dlg5').show()" update=":logow"/>
+                     </p:column>
+                     <p:column style="text-align: justify">
+                         <h:outputText rendered="#{typ == 2}" style="font-size: 16px" value="Raport dla administratorów systemu."/>
+                     </p:column>
+                 </p:row>
             </p:panelGrid>
             <ui:include src="/menu.xhtml"/>
             <p:growl id="message" showDetail="true" life="5000" autoUpdate="true" />
@@ -149,6 +157,28 @@
                     <p:graphicImage value="/images/progress_bar.gif" />
                 </p:dialog>               
             </h:form>
+        </p:dialog>
+        
+        <p:dialog modal="false" widgetVar="dlg5" appendTo="@(body)">
+            <h:form id="logow" >
+                <h:panelGroup >
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Wybierz zakres dat do raportu" />
+                    <p:outputLabel value=" "/>
+                    <p:outputLabel value="Data początkowa" for="data_poczatkowa"/>
+                    <p:calendar id="data_poczatkowa" value="#{logowBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss">
+                        <p:ajax event="dateSelect" listener="#{logowBean.hadbleDateSelect}" update=":porownawczy:data_koncowa"/>
+                    </p:calendar>
+                    <p:outputLabel value="Data końcowa" for="data_koncowa"/>
+                    <p:calendar id="data_koncowa" value="#{logowBean.dataKoncowa}" mindate="#{logowBean.dataPoczatkowa}" pattern="yyy-MM-dd HH:mm:ss"/>
+                </p:panelGrid>
+                    <p:commandButton action="#{logowBean.generuj}"  value="Generuj" onclick="PF('statusDialog').show()" />
+                </h:panelGroup>
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/images/progress_bar.gif" />
+                </p:dialog> 
+            </h:form>            
         </p:dialog>
     </ui:define>
 
