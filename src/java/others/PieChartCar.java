@@ -5,8 +5,6 @@
  */
 package others;
 
-import entity.Car;
-import java.util.List;
 import org.primefaces.model.chart.PieChartModel;
 
 /**

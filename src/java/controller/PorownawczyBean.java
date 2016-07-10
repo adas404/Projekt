@@ -73,8 +73,6 @@ public class PorownawczyBean extends Raport{
             List<Car> cars = this.getListaCar();
             for (Car z: cars){
                 List<Obd2odczyt> list = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE o.data>=:datap AND o.data<=:datak AND car.vin=:vin").setParameter("datap", dataPoczatkowa).setParameter("datak", dataKoncowa).setParameter("vin", z.getVin()).getResultList();
-             //   if (list.isEmpty())
-              //      throw new NoResultException("Brak wynikow");
                 for (Obd2odczyt x: list){
                     if (j != null){
                        long i = abs((j.getTime() - x.getData().getTime())/1000);
@@ -118,7 +116,6 @@ public class PorownawczyBean extends Raport{
                 tmpSredniaPredkosc += (Double)em.createQuery("SELECT AVG(o.predkosc) FROM Obd2odczyt o JOIN o.car car WHERE car.vin=:vin AND o.data>=:datap AND o.data<=:datak").setParameter("vin", x.getCar().getVin()).setParameter("datap", x.getDataPoczatkowa()).setParameter("datak", x.getDataKoncowa()).getSingleResult();
                 sredniaPredkosc += tmpSredniaPredkosc;
                 for (Obd2odczyt y: list){
-                 //   System.out.println(y.getPredkosc());
                     if (y.getPredkosc()<=50){
                         miasto++;
                         miastoCalosc++;
@@ -163,7 +160,6 @@ public class PorownawczyBean extends Raport{
         pieChartMiasto.setMinuty(new Date(time).getMinutes());
         pieChartMiasto.setSekundy(new Date(time).getSeconds());
         pieChartMiasto.setDlugoscTrasy(tmpDlugoscTrasy);
-  //      dlugoscTrasy = sredniaPredkosc * (double)((double)godziny + (double)((double)minuty/60) + (double)((double)sekundy/3600));
         pieChartMiasto.getCaloscPie().set("Miasto", miastoCalosc);
         pieChartMiasto.getCaloscPie().set("Poza miastem", pozaMiastemCalosc);
         pieChartMiasto.getCaloscPie().setTitle("Łączny czas ze wszystkich tras");

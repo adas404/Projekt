@@ -62,7 +62,7 @@ public class TygodniowyBean extends Raport{
                     long tmpdate = this.dataPoczatkowa.getTime()+ (86400000*ii);
                     for (Car z: listaCar){
                         list = em.createQuery("SELECT o FROM Obd2odczyt o JOIN o.car car WHERE o.data>=:datap AND o.data<:datak AND car.vin=:vin").setParameter("datap", new Date(tmpdate-86400000)).setParameter("datak", new Date(tmpdate)).setParameter("vin", z.getVin()).getResultList();
-                        if (list.isEmpty()){//^^ tuu je błąd w zapytaniu związany z datą początkową, naprawić!
+                        if (list.isEmpty()){
                             continue;
                         }
                         for (Obd2odczyt x: list){
@@ -129,7 +129,7 @@ public class TygodniowyBean extends Raport{
 
                         }
                     }
-                if(!dzien.getTrasy().isEmpty())//tu poprawić błąd bo nie dodaje dni w których jest tylko jedna trasa!
+                if(!dzien.getTrasy().isEmpty())
                     dzien.getTrasy().add(new Trasa(tmpcar,tmp,j));
                 dzien.setData(new Date(tmpdate - 86400000));
                 dzien.setIloscTras(dzien.getTrasy().size());
@@ -139,12 +139,10 @@ public class TygodniowyBean extends Raport{
             for(Tygodniowy g: listaDni){
                     long tmptime = 0;
                     for (Trasa h: g.getTrasy()){
-                        tmptime += h.getDataKoncowa().getTime()-h.getDataPoczatkowa().getTime();
- //                       System.out.println("Wynik odejmowania:"+(h.getDataKoncowa().getTime()-h.getDataPoczatkowa().getTime())+"i tmptime "+tmptime);
+                        tmptime += h.getDataKoncowa().getTime()-h.getDataPoczatkowa().getTime();                     
                     }
                     g.setCzasJazdy(new Date(tmptime));
                     g.setIloscKilometrow((g.getSredniaPredkosc()) * ((double)(new Date(tmptime).getHours()-1) + (((double)(new Date(tmptime).getMinutes()))/60) + (((double)(new Date(tmptime).getSeconds()))/3600)));
-           //         System.out.println("Czas jazdy wynosi:"+g.getCzasJazdy()+" a ilość przejechanych km: "+g.getIloscKilometrow());
             }
             this.log(4, "Wygenerowano raport tygodniowy" , em.find(Uzytkownik.class, session.getAttribute("id")));
          em.close();

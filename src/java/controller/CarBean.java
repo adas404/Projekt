@@ -8,17 +8,10 @@ package controller;
 
 import config.DBManager;
 import entity.Car;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 
 /**
  *

@@ -38,7 +38,6 @@ public class CarConverter implements Converter{
         if (! (o instanceof Car))
             throw new ConverterException(new FacesMessage("błąd"));
         Car p = (Car)o;
-        //System.out.println(p.getId().toString());
         return (o != null) ? p.getId().toString() : null;
     }
 

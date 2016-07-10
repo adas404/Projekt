@@ -9,7 +9,6 @@ package controller;
 import config.DBManager;
 import entity.Log;
 import entity.Uzytkownik;
-import java.awt.event.ActionEvent;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

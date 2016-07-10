@@ -7,7 +7,6 @@
 package controller;
 
 import config.DBManager;
-import entity.Car;
 import entity.Obd2odczyt;
 import entity.Uzytkownik;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import org.primefaces.model.chart.CartesianChartModel;
